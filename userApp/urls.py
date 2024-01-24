@@ -1,7 +1,12 @@
 from django.urls import path
+from . views import *
 
-from . import views
+app_name = 'userApp'
 
 urlpatterns = [
-    path("", views.test, name="test"),
+    path("", test, name="test"),
+    path('login', loginUser, name='login'),
+    path('logout', logoutUser, name='logout'),
+    path('signup', signup, name='signup'),
+    path('change-password', changePass, name='change_pass'),
 ]
