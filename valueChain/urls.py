@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 from django.views import defaults as default_views
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')), # grappelli URLS
 
     path('admin/', admin.site.urls),
     path('auth/', include('userApp.urls')),
     path('', include("valueChainApp.urls")),
+
 ]

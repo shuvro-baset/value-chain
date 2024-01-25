@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 import datetime, time
 from django.contrib import messages
+from .models import UniUser
+
 
 def test(request):
     return HttpResponse("Hello, test view.")
@@ -34,18 +36,22 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
-
-        form = CreateUserForm()
         if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account successfully create for ' + user)
-                return redirect('userapp:login')
-        context = {'form': form}
-        return render(request, "registration.html", context)
+            # username = request.POST.get('username')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            # user_type = request.POST.get('user_type')
+            phone_number = request.POST.get('phone_number')
 
+            user = UniUser.objects.create_user(username=email, password=password, first_name=first_name, last_name=last_name, phone_number=phone_number)
+            user.set_password(password)
+            user.save()
+
+            # messages.success(request, 'Account successfully create for ' + user)
+            return redirect('userApp:login')
+        return render(request, "signup.html")
 
 def logoutUser(request):
     user = request.user

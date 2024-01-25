@@ -38,6 +38,7 @@ MODE = env.str('MODE', default='production')
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,6 +121,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'userApp.UniUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -140,3 +142,5 @@ elif MODE == 'production':  # below 3 line would be not use
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+GRAPPELLI_ADMIN_TITLE = 'Value Chain'
