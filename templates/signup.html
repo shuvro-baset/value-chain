@@ -6,7 +6,7 @@
 
 
 <div class="container h-100">
-		<div class="d-flex justify-content-center h-100">
+		<div class="d-flex justify-content-center">
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
 
@@ -16,40 +16,18 @@
 				<div class="d-flex justify-content-center form_container">
 					<form method="POST" action="{% url 'userApp:signup' %}">
                         {% csrf_token %}
-						<div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-							<input type="text" name="email" placeholder="Email" class="form-control">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-							<input type="text" name="first_name" placeholder="First Name" class="form-control">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-							<input type="text" name="last_name" placeholder="Last name" class="form-control">
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-								<input type="password" name="password" placeholder="Password..." class="form-control" >
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-								<input type="text" name="phone_number" placeholder="Phone Number" class="form-control" >
-						</div>
+							<label>Email:</label>
+							<input type="text" name="email" placeholder="Email">
+							<label>First Name:</label>
+							<input type="text" name="first_name" placeholder="First Name">
+							<label>Last Name:</label>
+							<input type="text" name="last_name" placeholder="Last name">
+							<label>Password:</label>
+							<input type="password" name="password" placeholder="Password...">
+							<label>Phone Number:</label>
+							<input type="text" name="phone_number" placeholder="Phone Number">
 
-						<div class="d-flex justify-content-center mt-3 login_container">
-							<input class="btn login_btn" type="submit" value="Login">
-						</div>
+       						<button type="submit">Register</button>
 					</form>
 
 				</div>

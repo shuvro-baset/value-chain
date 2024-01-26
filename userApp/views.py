@@ -65,7 +65,7 @@ def logoutUser(request):
 def changePass(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = CreateUserForm(user=request.user, data=request.POST)
+            # form = CreateUserForm(user=request.user, data=request.POST)
 
             new_password = request.POST.get('new_password')
             confirm_password = request.POST.get('confirm_password')
@@ -75,7 +75,7 @@ def changePass(request):
             messages.info(request, 'password successfully changed')
             return redirect('/home/')
     else:
-        return redirect('userapp:login')
-    form = CreateUserForm()
-    context = {'form': form}
-    return render(request, "change_password.html", context)
+        return redirect('userApp:login')
+    # form = CreateUserForm()
+    # context = {'form': form}
+    return render(request, "change_password.html")

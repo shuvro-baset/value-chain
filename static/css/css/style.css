@@ -6,108 +6,38 @@ body{
     
     background-color: #EFEFEF;
 }
-.nav-bg{
-    background-color: #2A2A65;
-    color: #fff;
-    font-family: 'Dongle', sans-serif;
-    padding: 3px 10px;
-    margin: 5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 22px;
-}
-.heading-text{
-    color: #2A2A65;
-    font-family: 'Comic Neue', cursive;
-    font-weight: 700;
-    font-size: 25px;
-}
-.banner-div{
-    background-image: linear-gradient(rgba(0, 22, 39, 0.51), rgba(0, 28, 51, 0.51)), 
-                        url('../images/cv.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    min-height: 400px;
-    color: #fff;
-}
-.banner-img{
-    height: 180px;
-    width: 180px;
-    border-radius: 50%;
-}
-.title1{
-    font-size: 50px;
-    font-family: 'Comic Neue', cursive;
-    font-weight: 700;
-}
-.title2{
-    font-size: 20px;
-    font-family: 'Comic Neue', cursive;
-    font-weight: 700;
-    color: #2A2A65;
-}
-.service-div{
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 5px;
+
+form {
     background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #6fda44!important;
+    width: 300px;
 }
-.service-icon{
-    color: #2A2A65;
-    font-size: 35px;
-    /* padding: 10px; */
+
+label {
+    display: block;
+    margin-bottom: 8px;
 }
 
-
-
-.custom-row{
+input {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-}
-.product-div img{
-    height: 280px;
-    width: 250px;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc !important;
+    border-radius: 4px;
 }
 
-.about-head{
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-    padding: 10px 20px;
-    font-size: clamp(26px, 3vw, 40px);
-    font-weight: 700;
-    font-family: 'Dongle', sans-serif;
-    color: #2A2A65;
-}
-
-.footer-bg{
-    background-color: #010130;
+button {
+    background-color: #6fda44;
     color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.footer-menu a{
-    text-decoration: none;
-    color: #fff;
-    padding: 5px 10px;
-    border: 1px solid rgb(172, 170, 170);
-    border-radius: 3px;
-}
-.footer-menu a:hover{
-    background-color: #fff;
-    color: #2A2A65;
-}
-.social-icon a{
-    font-size: 200%;
-    color: rgb(58, 4, 250);
-}
-.social-icon a:hover{
-    color: rgb(252, 252, 253);
-}
-.footer-text p{
-    margin: 0;
-    padding: 0;
-    columns: #f4f4f4;
-    font-weight: 300;
-    font-size: 12px;
+button:hover {
+    background-color: #45a049;
 }
