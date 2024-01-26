@@ -8,11 +8,11 @@ class Product(models.Model):
     product_name = models.CharField(max_length=300, unique=True)
     product_group = models.CharField(max_length=300, default='Finished Group')
     uom = models.CharField(max_length=50)
-    qty = models.DecimalField(max_digits=8, decimal_places=2)
-    rate = models.DecimalField(max_digits=8, decimal_places=2)
-    stock_qty = models.DecimalField(max_digits=8, decimal_places=2)
-    stock_rate = models.DecimalField(max_digits=8, decimal_places=2)
-    avg_rate = models.DecimalField(max_digits=8, decimal_places=2)
+    qty = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    stock_qty = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    stock_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    avg_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 
 class ProductIssue(models.Model):
@@ -28,7 +28,7 @@ class ProductIssue(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
     production_cost = models.DecimalField(max_digits=8, decimal_places=2)
-    unit_price = models.DecimalField(max_digits=8, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 
 class RawMaterials(models.Model):
@@ -63,7 +63,7 @@ class PurchaseRecipt(models.Model):
 
 class CostType(models.Model):
     name = models.CharField(max_length=100)
-    total = models.DecimalField(max_digits=8, decimal_places=2)
+    total = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 
 class ProductionCost(models.Model):

@@ -6,4 +6,6 @@ app_name = 'valueChainApp'
 urlpatterns = [
     path("", home, name="index"),
     path("home/", home, name="home"),
+    path("create-product/", createProduct, name="create-product"),
+    path("product-list/", productList, name="product-list"),
 ]
