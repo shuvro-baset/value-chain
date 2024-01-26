@@ -8,8 +8,8 @@
 <div class="container h-100">
 		<h2>Product List</h2>
 
-	{% for product in products %}
-            <li>{{ product.product_name }} - {{ product.product_group }} - {{ product.uom }}</li>
+	{% for product in productIssue %}
+            <li>{{ product.id }} - {{product.product.product_name}}</li>
 	{% endfor %}
 </div>
 
