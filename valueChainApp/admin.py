@@ -15,17 +15,17 @@ class ProductIssueAdmin(admin.ModelAdmin):
 
 @admin.register(RawMaterials)
 class RawMaterialsAdmin(admin.ModelAdmin):
-    list_display = ['creator', 'date', 'description', 'product', 'product_issue']
+    list_display = ['creator', 'date', 'description', 'product_issue']
 
 
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
-    list_display = ['raw_materials', 'creator', 'date', 'description', 'product', 'product_issue', 'total_qty', 'total']
+    list_display = ['raw_materials', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
 
 
 @admin.register(PurchaseRecipt)
 class PurchaseReciptAdmin(admin.ModelAdmin):
-    list_display = ['purchase_order', 'creator', 'date', 'description', 'product', 'product_issue', 'total_qty', 'total']
+    list_display = ['purchase_order', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
 
 
 @admin.register(CostType)
@@ -45,14 +45,14 @@ class OthersCostAdmin(admin.ModelAdmin):
 
 @admin.register(StockEntry)
 class StockEntryAdmin(admin.ModelAdmin):
-    list_display = ['creator', 'date', 'product', 'product_issue', 'total_qty', 'total']
+    list_display = ['creator', 'date', 'product_issue', 'total_qty', 'total']
 
 
 @admin.register(SalesOrder)
 class SalesOrderAdmin(admin.ModelAdmin):
-    list_display = ['creator', 'date', 'description', 'product', 'total_qty', 'total']
+    list_display = ['creator', 'date', 'description', 'total_qty', 'total']
 
 
 @admin.register(DeliveryChallan)
 class DeliveryChallanAdmin(admin.ModelAdmin):
-    list_display = ['sales_order', 'creator', 'date', 'description', 'product', 'total_qty', 'total']
+    list_display = ['sales_order', 'creator', 'date', 'description', 'total_qty', 'total']

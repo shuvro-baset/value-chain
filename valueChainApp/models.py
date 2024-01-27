@@ -36,8 +36,15 @@ class RawMaterials(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
+
+
+class RawMaterialsProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    raw_materials = models.ForeignKey(RawMaterials, on_delete=models.CASCADE)
+    product_issue = models.CharField(max_length=50)
 
 
 class PurchaseOrder(models.Model):
@@ -45,10 +52,19 @@ class PurchaseOrder(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+class PurchaseOrderProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    raw_materials = models.CharField(max_length=50)
+    purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
+    product_issue = models.CharField(max_length=50)
 
 
 class PurchaseRecipt(models.Model):
@@ -56,10 +72,20 @@ class PurchaseRecipt(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+class PurchaseReceiptProduct(models.Model):
+    purchase_receipt = models.ForeignKey(PurchaseRecipt, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    raw_materials = models.CharField(max_length=50)
+    purchase_order = models.CharField(max_length=50)
+    product_issue = models.CharField(max_length=50)
 
 
 class CostType(models.Model):
@@ -86,19 +112,34 @@ class OthersCost(models.Model):
 class StockEntry(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+class StockEntryProduct(models.Model):
+    stock_entry = models.ForeignKey(StockEntry, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    product_issue = models.CharField(max_length=50)
 
 
 class SalesOrder(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+class SalesOrderProduct(models.Model):
+    sales_order = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 
 class DeliveryChallan(models.Model):
@@ -106,6 +147,14 @@ class DeliveryChallan(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+class DeliveryChallanProduct(models.Model):
+    delivery_challan = models.ForeignKey(DeliveryChallan, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    sales_order = models.CharField(max_length=50)

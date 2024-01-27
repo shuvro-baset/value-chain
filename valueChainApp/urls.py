@@ -18,7 +18,7 @@ urlpatterns = [
     path("stock-entry-list/", stockEntryList, name="stock-entry-list"),
     path("sales-order-list/", salesOrderList, name="sales-order-list"),
     path("delivery-challan-list/", deliveryChallanList, name="delivery-challan-list"),
-    path("create-issue/", createProductIssue, name="create-issue"),
+    path("create-product-issue/", createProductIssue, name="create-product-issue"),
     path("create-raw-materials/", createRawMaterial, name="create-raw-issue"),
 
 ]

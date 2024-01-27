@@ -42,7 +42,7 @@ def createProductIssue(request):
 
             # Retrieve the Product instance corresponding to the selected product ID
             product = get_object_or_404(Product, pk=product_id)
-            print('=============', product)
+
             # ToDo: product_name unique validation check and sending message.
             product_issue = ProductIssue.objects.create(
                 description=description,
@@ -52,32 +52,34 @@ def createProductIssue(request):
             )
             messages.info(request, 'Product Issue Succesfully Created.....')
             return redirect("valueChainApp:product-issue-list")
-    return render(request, 'create_issue.html', {'products': products})
+    return render(request, 'create_product_issue.html', {'products': products})
 
 
 def createRawMaterial(request):
     products = Product.objects.all()
+    product_issues = ProductIssue.objects.all()
+
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
+            creator = request.user
             description = request.POST.get('description')
-            total_qty = request.POST.get('total_qty')
+            product_issue_id = request.POST.get('product_issue')
             product_id = request.POST.get('product')  # Assuming 'product' is the product ID
 
             # Retrieve the Product instance corresponding to the selected product ID
-            product = get_object_or_404(Product, pk=product_id)
-            print('=============', product)
-            # ToDo: product_name unique validation check and sending message.
-            product_issue = ProductIssue.objects.create(
+            product_issue = get_object_or_404(ProductIssue, pk=product_issue_id)
+
+
+            product_issue = RawMaterials.objects.create(
+                creator=creator,
                 description=description,
-                total_qty=total_qty,
-                product=product,
-                creator=request.user
+                product_issue=product_issue
             )
             messages.info(request, 'Product Issue Succesfully Created.....')
             return redirect("valueChainApp:product-issue-list")
-    return render(request, 'create_issue.html', {'products': products})
+    return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
 
 def productList(request):
