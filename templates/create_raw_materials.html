@@ -5,15 +5,14 @@
 {% block content %}
 
 
-
 <div class="container h-100">
     <div class="d-flex justify-content-center h-100">
-        <div class="user_card">
+        <div>
             <div class="d-flex justify-content-center">
                 <h3 id="form-title">Add Raw Materials</h3>
             </div>
             <div class="d-flex justify-content-center form_container">
-                <form method="POST" action="">
+                <form id="myForm" method="POST" action="">
                     {% csrf_token %}
                     <label>Description:</label>
                     <input type="text" name="description" placeholder="Product Name..." class="form-control" required>
@@ -24,32 +23,28 @@
                         {% endfor %}
                     </select>
 
-                    <div id="productContainer">
-                        <div class="productItem">
-                            <label for="products">Select Products:</label><br>
-                            <select class="select2 products" name="products[]" multiple>
-                                {% for product in products %}
-                                <option value="{{ product.id }}">{{ product.product_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <br>
-                    <button type="button" id="addProduct">Add Product</button>
-                    <br><br>
-                    <!--                    <div id="selectContainer">-->
-                    <!--                        &lt;!&ndash; Initial select element &ndash;&gt;-->
-                    <!--                        <label for="products">Select Products:</label><br>-->
-                    <!--                        <select id="products" name="products[]" multiple>-->
-                    <!--                            {% for product in products %}-->
-                    <!--                            <option value="{{ product.id }}">{{ product.product_name }}</option>-->
-                    <!--                            {% endfor %}-->
-                    <!--                        </select><br><br>-->
-                    <!--                    </div>-->
-                    <br>
-                    <button type="button" onclick="addSelect()">Add New</button>
+                    <table id="myTable">
+                        <tr>
+                            <td>
+                                <select name="product_0">
+                                    {% for product in products %}
+                                    <option value="{{ product.id }}">{{ product.id }}-{{ product.product_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td><input type="text" name="uom_0"></td>
+                            <td><input type="number" step="0.01" name="qty_0"></td>
+                            <td><input type="text" name="product_issue_0"></td>
+                            <td>
+                                <button onclick="removeRow(this)">Remove</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <button onclick="addRow()">Add Row</button>
 
-                    <button type="submit">Add</button>
+
+                    <button type="submit">Save</button>
                 </form>
 
             </div>
@@ -61,5 +56,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    var allProducts = JSON.parse(document.getElementById("productData").textContent);
+</script>
+<div id="productData" style="display: none;">{{ products|safe }}</div>
+
 
 {% endblock %}
