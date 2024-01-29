@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
+
 from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, PurchaseRecipt, SalesOrder, DeliveryChallan, \
-    StockEntry, CostType, ProductionCost, OthersCost
+    StockEntry, CostType, ProductionCost, OthersCost, RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
 
 
@@ -63,22 +64,31 @@ def createRawMaterial(request):
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
-            creator = request.user
-            description = request.POST.get('description')
-            product_issue_id = request.POST.get('product_issue')
-            product_id = request.POST.get('product')  # Assuming 'product' is the product ID
+            products = request.POST.getlist('product[]')
+            uoms = request.POST.getlist('uom[]')
+            qtys = request.POST.getlist('qty[]')
+            product_issue = request.POST.get('product_issue')
 
-            # Retrieve the Product instance corresponding to the selected product ID
-            product_issue = get_object_or_404(ProductIssue, pk=product_issue_id)
+            product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
 
-
-            product_issue = RawMaterials.objects.create(
-                creator=creator,
-                description=description,
-                product_issue=product_issue
+            # Create RawMaterials instance
+            raw_materials = RawMaterials.objects.create(
+                creator=request.user,
+                description=request.POST.get('description'),
+                product_issue=product_issue_ins
             )
-            messages.info(request, 'Product Issue Succesfully Created.....')
-            return redirect("valueChainApp:product-issue-list")
+
+            # Create RawMaterialsProduct instances for each row
+            for product, uom, qty in zip(products, uoms, qtys):
+                RawMaterialsProduct.objects.create(
+                    product=Product.objects.get(pk=product),
+                    uom=uom,
+                    qty=qty,
+                    raw_materials=raw_materials,
+                    product_issue=product_issue_ins
+                )
+
+            return redirect('valueChainApp:raw-materials-list')
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
 

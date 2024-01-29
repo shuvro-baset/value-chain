@@ -18,6 +18,13 @@ class RawMaterialsAdmin(admin.ModelAdmin):
     list_display = ['creator', 'date', 'description', 'product_issue']
 
 
+@admin.register(RawMaterialsProduct)
+class RawMaterialsProductAdmin(admin.ModelAdmin):
+    def product_name(self, obj):
+        return obj.product.product_name
+    list_display = ['product_name', 'uom', 'qty', 'raw_materials', 'product_issue']
+
+
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
     list_display = ['raw_materials', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
