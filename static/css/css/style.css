@@ -1,9 +1,10 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-body{
-    
+
+body {
+
     background-color: #EFEFEF;
 }
 
@@ -11,7 +12,7 @@ form {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px #6fda44!important;
+    box-shadow: 0 0 10px #6fda44 !important;
     width: 600px;
 }
 
@@ -40,4 +41,19 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+table#product-table td {
+    /* ... other styles ... */
+    margin-right: 15px; /* Margin between cells */
+}
+
+table#product-table td:last-child {
+    margin-right: 0; /* Remove margin from the last cell */
+}
+
+table#product-table th {
+    /* ... other styles ... */
+    text-align: center;
+    width: 150px; /* Example width for each column */
 }
