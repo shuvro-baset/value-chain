@@ -92,25 +92,25 @@ class PurchaseReceiptProduct(models.Model):
     product_issue = models.CharField(max_length=50)
 
 
-class CostType(models.Model):
-    name = models.CharField(max_length=100)
-    total = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+# class CostType(models.Model):
+#     name = models.CharField(max_length=100)
+#     total = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 
 class ProductionCost(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    cost_type = models.ForeignKey(CostType, on_delete=models.CASCADE)
+    cost_type = models.CharField(max_length=250, null=True, blank=True)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=8, decimal_places=2)
 
 
-class OthersCost(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
-    cost_type = models.ForeignKey(CostType, on_delete=models.CASCADE)
-    product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
-    total = models.DecimalField(max_digits=8, decimal_places=2)
+# class OthersCost(models.Model):
+#     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+#     date = models.DateField(auto_now_add=True)
+#     cost_type = models.ForeignKey(CostType, on_delete=models.CASCADE)
+#     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
+#     total = models.DecimalField(max_digits=8, decimal_places=2)
 
 
 class StockEntry(models.Model):

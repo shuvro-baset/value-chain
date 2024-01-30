@@ -35,9 +35,9 @@ class PurchaseReciptAdmin(admin.ModelAdmin):
     list_display = ['purchase_order', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
 
 
-@admin.register(CostType)
-class CostTypeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'total']
+# @admin.register(CostType)
+# class CostTypeAdmin(admin.ModelAdmin):
+#     list_display = ['name', 'total']
 
 
 @admin.register(ProductionCost)
@@ -45,9 +45,9 @@ class ProductionCostAdmin(admin.ModelAdmin):
     list_display = ['creator', 'date', 'cost_type', 'product_issue', 'total']
 
 
-@admin.register(OthersCost)
-class OthersCostAdmin(admin.ModelAdmin):
-    list_display = ['creator', 'date', 'cost_type', 'product_issue', 'total']
+# @admin.register(OthersCost)
+# class OthersCostAdmin(admin.ModelAdmin):
+#     list_display = ['creator', 'date', 'cost_type', 'product_issue', 'total']
 
 
 @admin.register(StockEntry)

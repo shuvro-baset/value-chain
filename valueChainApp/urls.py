@@ -12,13 +12,16 @@ urlpatterns = [
     path("raw-materials-list/", rawMaterialList, name="raw-materials-list"),
     path("purchase-order-list/", purchaseOrderList, name="purchase-order-list"),
     path("purchase-receipt-list/", purchaseReceiptList, name="purchase-receipt-list"),
-    path("cost-type-list/", costTypeList, name="cost-type-list"),
+    # path("cost-type-list/", costTypeList, name="cost-type-list"),
     path("production-cost-list/", productionCostList, name="production-cost-list"),
-    path("others-cost-list/", othersCostList, name="others-cost-list"),
+    # path("others-cost-list/", othersCostList, name="others-cost-list"),
     path("stock-entry-list/", stockEntryList, name="stock-entry-list"),
     path("sales-order-list/", salesOrderList, name="sales-order-list"),
     path("delivery-challan-list/", deliveryChallanList, name="delivery-challan-list"),
     path("create-product-issue/", createProductIssue, name="create-product-issue"),
     path("create-raw-materials/", createRawMaterial, name="create-raw-issue"),
+    path("create-purchase-order/", createPurchaseOrder, name="create-purchase-order"),
+    path("create-purchase-receipt/", createPurchaseReceipt, name="create-purchase-receipt"),
+    path("create-stock-entry/", createStockEntry, name="create-stock-entry"),
 
 ]

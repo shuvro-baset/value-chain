@@ -4,34 +4,64 @@
 
 {% block content %}
 
-
 <div class="container h-100">
-		<div class="d-flex justify-content-center h-100">
-			<div class="user_card">
-				<div class="d-flex justify-content-center">
-					<h3 id="form-title">Create Raw Materials</h3>
-				</div>
-				<div class="d-flex justify-content-center form_container">
-					<form method="POST" action="">
-                        {% csrf_token %}
-							<label>Product Name:</label>
-							<input type="text" name="product_name" placeholder="Product Name..." class="form-control" required>
-							<label>Product Group:</label>
-							<input type="text" name="product_group" placeholder="Product Group..." class="form-control" required >
-							<label>UOM(Unit of Measurement):</label>
-							<input type="text" name="uom" placeholder="Unit of Measurement" class="form-control" required >
+    <div class="d-flex justify-content-center my-5 h-100">
+        <div>
+            <div class="d-flex justify-content-center my-4">
+                <h3 id="form-title">Stock Entry</h3>
+            </div>
+            <div class="d-flex justify-content-center form_container">
+                <form id="myForm" method="POST" action="">
+                    {% csrf_token %} {{ form.as_p }}
+                    <label>Stock Entry No:</label>
+                    <input type="text" name="stock_entry_no" placeholder="Stock Entry No..." class="form-control"
+                           required>
 
-							<button type="submit">Add</button>
-					</form>
+                    <label>Please Select Product Issue No</label>
+                    <select name="product_issue" class="form-control" required>
+                        <option disabled>Select Product Issue No</option>
+                        {% for product_issue in product_issues %}
+                        <option value="{{ product_issue.id }}">{{ product_issue.id }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <label>Add Products</label>
+                    <table class="table" id="product-table">
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>UOM</th>
+                            <th>QTY</th>
+                            <th>Rate</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="row-template">
+                            <td><select name="product[]" id="product" class="form-control">
+                                <option disabled>Select Product</option>
+                                {% for product in products %}
+                                <option value="{{ product.pk }}">{{ product.product_name }}</option>
+                                {% endfor %}
+                            </select></td>
+                            <td><input type="text" name="uom" id="uom" class="form-control" required></td>
+                            <td><input type="number" name="qty" id="qty" step="0.01" class="form-control" required>
+                            <td><input type="number" name="rate" id="rate" step="0.01" class="form-control" required>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success" type="submit">Save</button>
+                </form>
 
-				</div>
-                {% for message in messages %}
-                    <p id="messages"> {{ message }}</p>
-                {% endfor %}
+            </div>
+            {% for message in messages %}
+            <p id="messages"> {{ message }}</p>
+            {% endfor %}
 
 
-			</div>
-		</div>
-	</div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 
 from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, PurchaseRecipt, SalesOrder, DeliveryChallan, \
-    StockEntry, CostType, ProductionCost, OthersCost, RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, SalesOrderProduct, DeliveryChallanProduct
+    StockEntry,  ProductionCost,  RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, \
+    SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
 
 
@@ -92,6 +93,45 @@ def createRawMaterial(request):
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
 
+def createPurchaseOrder(request):
+    products = Product.objects.all()
+    product_issues = ProductIssue.objects.all()
+
+    if not request.user.is_authenticated:
+        return redirect('valueChainApp:home')
+    else:
+        if request.method == 'POST':
+            pass
+            return redirect('valueChainApp:purchase-order-list')
+    return render(request, 'create_purchase_order.html', {'products': products, 'product_issues': product_issues})
+
+
+def createPurchaseReceipt(request):
+    products = Product.objects.all()
+    product_issues = ProductIssue.objects.all()
+
+    if not request.user.is_authenticated:
+        return redirect('valueChainApp:home')
+    else:
+        if request.method == 'POST':
+            pass
+            return redirect('valueChainApp:purchase-receipt-list')
+    return render(request, 'create_purchase_receipt.html', {'products': products, 'product_issues': product_issues})
+
+
+def createStockEntry(request):
+    products = Product.objects.all()
+    product_issues = ProductIssue.objects.all()
+
+    if not request.user.is_authenticated:
+        return redirect('valueChainApp:home')
+    else:
+        if request.method == 'POST':
+            pass
+            return redirect('valueChainApp:stock-entry-list')
+    return render(request, 'create_stock_entry.html', {'products': products, 'product_issues': product_issues})
+
+
 def productList(request):
     context = {}
     if not request.user.is_authenticated:
@@ -137,13 +177,13 @@ def purchaseReceiptList(request):
     return render(request, 'purchase_receipt_list.html', {'purchaseReceiptList': purchaseReceiptList})
 
 
-def costTypeList(request):
-    context = {}
-    if not request.user.is_authenticated:
-        return redirect('valueChainApp:home')
-    else:
-        costTypeList = CostType.objects.all()
-    return render(request, 'cost_type_list.html', {'costTypeList': costTypeList})
+# def costTypeList(request):
+#     context = {}
+#     if not request.user.is_authenticated:
+#         return redirect('valueChainApp:home')
+#     else:
+#         costTypeList = CostType.objects.all()
+#     return render(request, 'cost_type_list.html', {'costTypeList': costTypeList})
 
 
 def productionCostList(request):
@@ -155,13 +195,13 @@ def productionCostList(request):
     return render(request, 'production_cost_list.html', {'productionCostList': productionCostList})
 
 
-def othersCostList(request):
-    context = {}
-    if not request.user.is_authenticated:
-        return redirect('valueChainApp:home')
-    else:
-        othersCostList = OthersCost.objects.all()
-    return render(request, 'others_cost_list.html', {'othersCostList': othersCostList})
+# def othersCostList(request):
+#     context = {}
+#     if not request.user.is_authenticated:
+#         return redirect('valueChainApp:home')
+#     else:
+#         othersCostList = OthersCost.objects.all()
+#     return render(request, 'others_cost_list.html', {'othersCostList': othersCostList})
 
 
 def stockEntryList(request):
