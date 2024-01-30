@@ -22,6 +22,7 @@ class ProductIssue(models.Model):
         ('PROCESSING', 'PROCESSING'),
         ('COMPLETE', 'COMPLETE'),
     )
+    issue_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
@@ -33,6 +34,7 @@ class ProductIssue(models.Model):
 
 
 class RawMaterials(models.Model):
+    raw_materials_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
@@ -48,6 +50,7 @@ class RawMaterialsProduct(models.Model):
 
 
 class PurchaseOrder(models.Model):
+    purchas_order_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     raw_materials = models.ForeignKey(RawMaterials, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -68,6 +71,7 @@ class PurchaseOrderProduct(models.Model):
 
 
 class PurchaseRecipt(models.Model):
+    purchas_receipt_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -110,6 +114,7 @@ class OthersCost(models.Model):
 
 
 class StockEntry(models.Model):
+    stock_entry_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
@@ -127,6 +132,7 @@ class StockEntryProduct(models.Model):
 
 
 class SalesOrder(models.Model):
+    sales_order_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
@@ -143,6 +149,7 @@ class SalesOrderProduct(models.Model):
 
 
 class DeliveryChallan(models.Model):
+    delivery_challan_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     sales_order = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
