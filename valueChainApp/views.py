@@ -40,7 +40,8 @@ def createProductIssue(request):
         if request.method == 'POST':
             description = request.POST.get('description')
             total_qty = request.POST.get('total_qty')
-            product_id = request.POST.get('product')  # Assuming 'product' is the product ID
+            product_id = request.POST.get('product')
+            issue_no = request.POST.get('issue_no')
 
             # Retrieve the Product instance corresponding to the selected product ID
             product = get_object_or_404(Product, pk=product_id)
@@ -50,6 +51,7 @@ def createProductIssue(request):
                 description=description,
                 total_qty=total_qty,
                 product=product,
+                issue_no=issue_no,
                 creator=request.user
             )
             messages.info(request, 'Product Issue Succesfully Created.....')
@@ -65,6 +67,7 @@ def createRawMaterial(request):
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
+            raw_materials_no = request.POST.get('raw_materials_no')
             products = request.POST.getlist('product[]')
             uoms = request.POST.getlist('uom[]')
             qtys = request.POST.getlist('qty[]')
@@ -76,6 +79,7 @@ def createRawMaterial(request):
             raw_materials = RawMaterials.objects.create(
                 creator=request.user,
                 description=request.POST.get('description'),
+                raw_materials_no=raw_materials_no,
                 product_issue=product_issue_ins
             )
 
@@ -86,7 +90,7 @@ def createRawMaterial(request):
                     uom=uom,
                     qty=qty,
                     raw_materials=raw_materials,
-                    product_issue=product_issue_ins
+                    product_issue=product_issue_ins.issue_no
                 )
 
             return redirect('valueChainApp:raw-materials-list')

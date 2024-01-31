@@ -34,11 +34,17 @@ class ProductIssue(models.Model):
 
 
 class RawMaterials(models.Model):
+    STATUS = (
+        ('OPEN', 'OPEN'),
+        ('PROCESSING', 'PROCESSING'),
+        ('COMPLETE', 'COMPLETE'),
+    )
     raw_materials_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
+    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
 
 
 class RawMaterialsProduct(models.Model):
@@ -50,6 +56,11 @@ class RawMaterialsProduct(models.Model):
 
 
 class PurchaseOrder(models.Model):
+    STATUS = (
+        ('OPEN', 'OPEN'),
+        ('PROCESSING', 'PROCESSING'),
+        ('COMPLETE', 'COMPLETE'),
+    )
     purchas_order_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     raw_materials = models.ForeignKey(RawMaterials, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -58,6 +69,7 @@ class PurchaseOrder(models.Model):
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
 
 
 class PurchaseOrderProduct(models.Model):
@@ -132,12 +144,18 @@ class StockEntryProduct(models.Model):
 
 
 class SalesOrder(models.Model):
+    STATUS = (
+        ('OPEN', 'OPEN'),
+        ('PROCESSING', 'PROCESSING'),
+        ('COMPLETE', 'COMPLETE'),
+    )
     sales_order_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
 
 
 class SalesOrderProduct(models.Model):

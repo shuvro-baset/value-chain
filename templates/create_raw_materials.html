@@ -23,7 +23,7 @@
                     <select name="product_issue" class="form-control" required>
                         <option disabled>Select Product Issue No</option>
                         {% for product_issue in product_issues %}
-                        <option value="{{ product_issue.id }}">{{ product_issue.id }}</option>
+                        <option value="{{ product_issue.id }}"> {{ product_issue.issue_no }}</option>
                         {% endfor %}
                     </select>
                     <br>
