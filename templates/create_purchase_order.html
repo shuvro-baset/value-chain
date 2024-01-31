@@ -8,7 +8,8 @@
     <div class="d-flex justify-content-center h-100">
         <div>
             <div class="d-flex justify-content-center">
-                <h3 id="form-title">Add Raw Materials</h3>
+                <h3 id="form-title">Add Purchase Order</h3>
+
             </div>
             <div class="d-flex justify-content-center form_container">
                 <form id="myForm" method="POST" action="">
@@ -16,21 +17,13 @@
                     <label>Purchas Order No:</label>
                     <input type="text" name="purchas_order_no" placeholder="Purchas Order No..." class="form-control"
                            required>
-                    <label>Raw Materials No:</label>
-                    <input type="text" name="raw_materials_no" placeholder="Raw Materials No..." class="form-control"
-                           required>
+
                     <label>Description:</label>
                     <input type="text" name="description" placeholder="Add Description..." class="form-control"
                            required>
-                    <label>Please Select Product Issue No</label>
-                    <select name="product_issue" class="form-control" required>
-                        <option disabled>Select Product Issue No</option>
-                        {% for product_issue in product_issues %}
-                        <option value="{{ product_issue.id }}">{{ product_issue.id }}</option>
-                        {% endfor %}
-                    </select>
+
                     <br>
-                    <label>Add Products</label>
+                    <label>Products Details</label>
                     <table class="table" id="product-table">
                         <thead>
                         <tr>
@@ -38,29 +31,31 @@
                             <th>UOM</th>
                             <th>QTY</th>
                             <th>Rate</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% for raw_mat_pro in raw_material_products%}
                         <tr id="row-template">
-                            <td><select name="product[]" id="product" class="form-control">
-                                <option disabled>Select Product</option>
-                                {% for product in products %}
-                                <option value="{{ product.pk }}">{{ product.product_name }}</option>
-                                {% endfor %}
-                            </select></td>
-                            <td><input type="text" name="uom[]" id="uom" class="form-control" required></td>
-                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" required>
+<!--                            <td><select name="product[]" id="product" class="form-control">-->
+<!--                                <option disabled>Select Product</option>-->
+<!--&lt;!&ndash;                                {% for product in products %}&ndash;&gt;-->
+<!--                                <option value="{{ product.pk }}">{{ product.product_name }}</option>-->
+<!--&lt;!&ndash;                                {% endfor %}&ndash;&gt;-->
+<!--                            </select></td>-->
+                            <td><input type="text" name="product[]" class="form-control" readonly placeholder="{{ raw_mat_pro.product.product_name }}"  value="{{ raw_mat_pro.product }}"></td>
+                            <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required value="{{ raw_mat_pro.uom }}"></td>
+                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly required value="{{ raw_mat_pro.qty }}">
                             <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" required>
                             </td>
-                            <td>
-                                <button type="button" class="remove-row btn btn-outline-danger">Remove</button>
-                            </td>
+<!--                            <td>-->
+<!--                                <button type="button" class="remove-row btn btn-outline-danger">Remove</button>-->
+<!--                            </td>-->
                         </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-outline-info" type="button" id="add-row">Add Row</button>
+                    <div class="d-flex justify-content-right">
+<!--                        <button class="btn btn-outline-info" type="button" id="add-row">Add Row</button>-->
                         <button class="btn btn-success" type="submit">Save</button>
                     </div>
                 </form>
@@ -76,15 +71,50 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        var rowTemplate = $('#row-template').html();
-        $('#add-row').click(function () {
-            $('#product-table tbody').append('<tr>' + rowTemplate + '</tr>');
-        });
-        $(document).on('click', '.remove-row', function () {
-            $(this).closest('tr').remove();
-        });
-    });
+     // $('#raw_materials').change(function() {
+     //        var raw_material_id = $(this).val();
+     //        $.ajax({
+     //            url: '/get-raw-material-products/',  // URL to fetch raw materials product data
+     //            type: 'GET',
+     //            data: {
+     //                'raw_material_id': raw_material_id
+     //            },
+     //            dataType: 'json',
+     //            success: function(data) {
+     //                // Clear existing rows
+     //                $('#product-table tbody').empty();
+     //
+     //                // Populate table rows with received data
+     //                $.each(data, function(index, item) {
+     //                    var newRow = '<tr>' +
+     //                        '<td>' + item.product + '</td>' +
+     //                        '<td>' + item.uom + '</td>' +
+     //                        '<td>' + item.qty + '</td>' +
+     //                        '<td><input type="number" name="rate[]" class="form-control" required></td>' +
+     //                        '</tr>';
+     //                    $('#product-table tbody').append(newRow);
+     //                });
+     //            }
+     //        });
+     //    });
+    // $('#raw_materials').on('change', function() {
+    //     const rawMaterialId = $(this).val();
+    //     $.ajax({
+    //         url: '/get-raw-material-products/',
+    //         data: { raw_material_id: rawMaterialId },
+    //         success: function(response) {
+    //             $('#product-table tbody').empty(); // Clear existing rows
+    //             for (const product of response.products) {
+    //                 const row = $('#row-template').clone();
+    //                 row.find('#product option[value="' + product.product_id + '"]').prop('selected', true);
+    //                 row.find('#uom').val(product.uom);
+    //                 row.find('#qty').val(product.qty);
+    //                 row.find('#rate').val(product.rate); // Add this line
+    //                 $('#product-table tbody').append(row);
+    //             }
+    //         }
+    //     });
+    // });
 </script>
 
 

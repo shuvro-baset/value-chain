@@ -1,9 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 
 from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, PurchaseRecipt, SalesOrder, DeliveryChallan, \
-    StockEntry,  ProductionCost,  RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, \
+    StockEntry, ProductionCost, RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, \
     SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
 
@@ -97,17 +97,59 @@ def createRawMaterial(request):
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
 
-def createPurchaseOrder(request):
+def createPurchaseOrder(request, raw_materials_no):
     products = Product.objects.all()
-    product_issues = ProductIssue.objects.all()
+    raw_materials_ins = get_object_or_404(RawMaterialsProduct, id=raw_materials_no)
+    if raw_materials_ins:
+        raw_material_products = RawMaterialsProduct.objects.filter(raw_materials_id=raw_materials_ins.id)
+
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
-            pass
+            raw_materials = raw_materials_ins.id
+            purchas_order_no = request.POST.get('purchase_order_no')
+            product_issue = raw_materials_ins.product_issue
+            total_qty = 0
+            total = 0
+
+            products = request.POST.getlist('product[]')
+            uoms = request.POST.getlist('uom[]')
+            qtys = request.POST.getlist('qty[]')
+            rates = request.POST.getlist('rate[]')
+
+            for product, rate, qty in zip(products, rates, qtys):
+                total_qty = total_qty + float(qty)
+                total = total + float(rate)
+
+
+            product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
+
+            # Create RawMaterials instance
+            purchase_order = PurchaseOrder.objects.create(
+                creator=request.user,
+                purchas_order_no=purchas_order_no,
+                description=request.POST.get('description'),
+                raw_materials=raw_materials_ins.id,
+                product_issue=product_issue_ins,
+                total_qty=total_qty,
+                total=total
+            )
+
+            # Create RawMaterialsProduct instances for each row
+            for product, uom, qty, rate in zip(products, uoms, qtys, rates):
+                PurchaseOrderProduct.objects.create(
+                    product=Product.objects.get(pk=product),
+                    uom=uom,
+                    qty=qty,
+                    rate=rate,
+                    raw_materials=raw_materials_ins.raw_materials_no,
+                    product_issue=product_issue_ins.issue_no
+                )
+
             return redirect('valueChainApp:purchase-order-list')
-    return render(request, 'create_purchase_order.html', {'products': products, 'product_issues': product_issues})
+    return render(request, 'create_purchase_order.html', {'products': products, 'raw_material_products': raw_material_products})
 
 
 def createPurchaseReceipt(request):
@@ -233,3 +275,11 @@ def deliveryChallanList(request):
     else:
         deliveryChallanList = DeliveryChallan.objects.all()
     return render(request, 'delivery_challan_list.html', {'deliveryChallanList': deliveryChallanList})
+
+
+def getRawMaterialProducts(request):
+    print("view function...........")
+    raw_materials_id = request.GET.get('raw_materials_id')
+    data = list(
+        RawMaterialsProduct.objects.filter(raw_materials_id=raw_materials_id).values('product', 'uom', 'qty'))
+    return JsonResponse(data, safe=False)
