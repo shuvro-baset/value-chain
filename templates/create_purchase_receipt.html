@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-center h-100">
         <div>
             <div class="d-flex justify-content-center">
-                <h3 id="form-title">Add Raw Materials</h3>
+                <h3 id="form-title">Make Purchase Receipt</h3>
             </div>
             <div class="d-flex justify-content-center form_container">
                 <form id="myForm" method="POST" action="">
@@ -16,22 +16,14 @@
 					<label>Purchase Receipt No:</label>
                     <input type="text" name="purchas_receipt_no" placeholder="Purchase Receipt No..." class="form-control"
                            required>
-                    <label>Purchas Order No:</label>
-                    <input type="text" name="purchas_order_no" placeholder="Purchas Order No..." class="form-control"
-                           required>
+
 
                     <label>Description:</label>
                     <input type="text" name="description" placeholder="Add Description..." class="form-control"
                            required>
-                    <label>Please Select Product Issue No</label>
-                    <select name="product_issue" class="form-control" required>
-                        <option disabled>Select Product Issue No</option>
-                        {% for product_issue in product_issues %}
-                        <option value="{{ product_issue.id }}">{{ product_issue.id }}</option>
-                        {% endfor %}
-                    </select>
+
                     <br>
-                    <label>Add Products</label>
+                    <label>Products Details</label>
                     <table class="table" id="product-table">
                         <thead>
                         <tr>
@@ -39,29 +31,20 @@
                             <th>UOM</th>
                             <th>QTY</th>
                             <th>Rate</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% for po in purchase_order_products %}
                         <tr id="row-template">
-                            <td><select name="product[]" id="product" class="form-control">
-                                <option disabled>Select Product</option>
-                                {% for product in products %}
-                                <option value="{{ product.pk }}">{{ product.product_name }}</option>
-                                {% endfor %}
-                            </select></td>
-                            <td><input type="text" name="uom[]" id="uom" class="form-control" required></td>
-                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" required>
-                            <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" required>
-                            </td>
-                            <td>
-                                <button type="button" class="remove-row btn btn-outline-danger">Remove</button>
-                            </td>
+                            <td><input type="text" name="product[]" class="form-control" readonly placeholder="{{ po.product.product_name }}"  value="{{ po.product.pk }}"></td>
+                            <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required value="{{ po.uom }}"></td>
+                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly required value="{{ po.qty }}">
+                            <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" readonly required value="{{ po.rate }}"></td>
                         </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-outline-info" type="button" id="add-row">Add Row</button>
+                    <div class="d-flex justify-content-right">
                         <button class="btn btn-success" type="submit">Save</button>
                     </div>
                 </form>
@@ -76,17 +59,7 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        var rowTemplate = $('#row-template').html();
-        $('#add-row').click(function () {
-            $('#product-table tbody').append('<tr>' + rowTemplate + '</tr>');
-        });
-        $(document).on('click', '.remove-row', function () {
-            $(this).closest('tr').remove();
-        });
-    });
-</script>
+
 
 
 {% endblock %}

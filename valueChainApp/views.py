@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 
-from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, PurchaseRecipt, SalesOrder, DeliveryChallan, \
+from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, PurchaseReceipt, SalesOrder, DeliveryChallan, \
     StockEntry, ProductionCost, RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, \
     SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
@@ -93,12 +93,13 @@ def createRawMaterial(request):
                     product_issue=product_issue_ins.issue_no
                 )
 
+            # ToDo: udpate status of product issue
+
             return redirect('valueChainApp:raw-materials-list')
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
 
 def createPurchaseOrder(request, raw_materials_no):
-    products = Product.objects.all()
     raw_materials_ins = get_object_or_404(RawMaterials, id=raw_materials_no)
     if raw_materials_ins:
         raw_material_products = RawMaterialsProduct.objects.filter(raw_materials_id=raw_materials_ins.id)
@@ -149,21 +150,65 @@ def createPurchaseOrder(request, raw_materials_no):
                     purchase_order=purchase_order
                 )
 
+            # ToDo: udpate status
+
             return redirect('valueChainApp:purchase-order-list')
-    return render(request, 'create_purchase_order.html', {'products': products, 'raw_material_products': raw_material_products})
+    return render(request, 'create_purchase_order.html', {'raw_material_products': raw_material_products})
 
 
-def createPurchaseReceipt(request):
-    products = Product.objects.all()
-    product_issues = ProductIssue.objects.all()
+def createPurchaseReceipt(request, purchase_order_no):
+    purchase_order_ins = get_object_or_404(PurchaseOrder, id=purchase_order_no)
+    if purchase_order_ins:
+        purchase_order_products = PurchaseOrderProduct.objects.filter(purchase_order=purchase_order_ins.id)
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
-            pass
+            purchase_order = purchase_order_ins.id
+            purchase_receipt_no = request.POST.get('purchase_receipt_no')
+            product_issue = purchase_order_ins.product_issue.id
+            total_qty = 0
+            total = 0
+
+            products = request.POST.getlist('product[]')
+            uoms = request.POST.getlist('uom[]')
+            qtys = request.POST.getlist('qty[]')
+            rates = request.POST.getlist('rate[]')
+
+            for product, rate, qty in zip(products, rates, qtys):
+                total_qty = total_qty + float(qty)
+                total = total + float(rate)
+
+            product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
+
+            # Create RawMaterials instance
+            purchase_receipt = PurchaseReceipt.objects.create(
+                creator=request.user,
+                purchas_receipt_no=purchase_receipt_no,
+                description=request.POST.get('description'),
+                purchase_order=purchase_order_ins,
+                product_issue=product_issue_ins,
+                total_qty=total_qty,
+                total=total
+            )
+
+            # Create RawMaterialsProduct instances for each row
+            for product, uom, qty, rate in zip(products, uoms, qtys, rates):
+                PurchaseReceiptProduct.objects.create(
+                    product=Product.objects.get(pk=product),
+                    uom=uom,
+                    qty=qty,
+                    rate=rate,
+                    raw_materials=purchase_order_ins.raw_materials,
+                    product_issue=product_issue_ins.issue_no,
+                    purchase_order=purchase_order_ins,
+                    purchase_receipt= purchase_receipt
+                )
+            # ToDo: udpate status
+
             return redirect('valueChainApp:purchase-receipt-list')
-    return render(request, 'create_purchase_receipt.html', {'products': products, 'product_issues': product_issues})
+    return render(request, 'create_purchase_receipt.html', {'purchase_order_products': purchase_order_products})
 
 
 def createStockEntry(request):
@@ -220,7 +265,7 @@ def purchaseReceiptList(request):
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
-        purchaseReceiptList = PurchaseRecipt.objects.all()
+        purchaseReceiptList = PurchaseReceipt.objects.all()
     return render(request, 'purchase_receipt_list.html', {'purchaseReceiptList': purchaseReceiptList})
 
 

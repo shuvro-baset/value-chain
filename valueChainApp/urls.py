@@ -21,7 +21,7 @@ urlpatterns = [
     path("create-product-issue/", createProductIssue, name="create-product-issue"),
     path("create-raw-materials/", createRawMaterial, name="create-raw-issue"),
     path("<int:raw_materials_no>/create-purchase-order/", createPurchaseOrder, name="create-purchase-order"),
-    path("create-purchase-receipt/", createPurchaseReceipt, name="create-purchase-receipt"),
+    path("<int:purchase_order_no>/create-purchase-receipt/", createPurchaseReceipt, name="create-purchase-receipt"),
     path("create-stock-entry/", createStockEntry, name="create-stock-entry"),
 
     path("get-raw-material-products/", getRawMaterialProducts, name="get-raw-material-products"),

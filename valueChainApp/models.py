@@ -82,7 +82,7 @@ class PurchaseOrderProduct(models.Model):
     product_issue = models.CharField(max_length=50)
 
 
-class PurchaseRecipt(models.Model):
+class PurchaseReceipt(models.Model):
     purchas_receipt_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -94,7 +94,7 @@ class PurchaseRecipt(models.Model):
 
 
 class PurchaseReceiptProduct(models.Model):
-    purchase_receipt = models.ForeignKey(PurchaseRecipt, on_delete=models.CASCADE)
+    purchase_receipt = models.ForeignKey(PurchaseReceipt, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     uom = models.CharField(max_length=50)
     qty = models.DecimalField(max_digits=8, decimal_places=2)

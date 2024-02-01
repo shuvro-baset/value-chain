@@ -22,17 +22,34 @@ class RawMaterialsAdmin(admin.ModelAdmin):
 class RawMaterialsProductAdmin(admin.ModelAdmin):
     def product_name(self, obj):
         return obj.product.product_name
+
     list_display = ['product_name', 'uom', 'qty', 'raw_materials', 'product_issue']
 
 
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
-    list_display = ['raw_materials', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
+    list_display = ['id', 'raw_materials', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
 
 
-@admin.register(PurchaseRecipt)
-class PurchaseReciptAdmin(admin.ModelAdmin):
-    list_display = ['purchase_order', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
+@admin.register(PurchaseOrderProduct)
+class PurchaseOrderProductAdmin(admin.ModelAdmin):
+    def product_name(self, obj):
+        return obj.product.product_name
+
+    list_display = ['product_name', 'uom', 'qty', 'rate', 'raw_materials', 'product_issue']
+
+
+@admin.register(PurchaseReceipt)
+class PurchaseReceiptAdmin(admin.ModelAdmin):
+    list_display = ['id', 'purchase_order', 'creator', 'date', 'description', 'product_issue', 'total_qty', 'total']
+
+
+@admin.register(PurchaseReceiptProduct)
+class PurchaseReceiptProductAdmin(admin.ModelAdmin):
+    def product_name(self, obj):
+        return obj.product.product_name
+
+    list_display = ['product_name', 'uom', 'qty', 'raw_materials', 'product_issue']
 
 
 # @admin.register(CostType)
