@@ -23,6 +23,7 @@ urlpatterns = [
     path("<int:raw_materials_no>/create-purchase-order/", createPurchaseOrder, name="create-purchase-order"),
     path("<int:purchase_order_no>/create-purchase-receipt/", createPurchaseReceipt, name="create-purchase-receipt"),
     path("create-stock-entry/", createStockEntry, name="create-stock-entry"),
+    path("add-production-cost/", createProductionCost, name="add-production-cost"),
 
-    path("get-raw-material-products/", getRawMaterialProducts, name="get-raw-material-products"),
+
 ]

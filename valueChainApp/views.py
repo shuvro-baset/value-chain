@@ -104,7 +104,6 @@ def createPurchaseOrder(request, raw_materials_no):
     if raw_materials_ins:
         raw_material_products = RawMaterialsProduct.objects.filter(raw_materials_id=raw_materials_ins.id)
 
-
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
@@ -123,7 +122,6 @@ def createPurchaseOrder(request, raw_materials_no):
             for product, rate, qty in zip(products, rates, qtys):
                 total_qty = total_qty + float(qty)
                 total = total + float(rate)
-
 
             product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
 
@@ -203,9 +201,9 @@ def createPurchaseReceipt(request, purchase_order_no):
                     raw_materials=purchase_order_ins.raw_materials,
                     product_issue=product_issue_ins.issue_no,
                     purchase_order=purchase_order_ins,
-                    purchase_receipt= purchase_receipt
+                    purchase_receipt=purchase_receipt
                 )
-            # ToDo: udpate status
+            # ToDo: udpate status and add cost to product issue .......
 
             return redirect('valueChainApp:purchase-receipt-list')
     return render(request, 'create_purchase_receipt.html', {'purchase_order_products': purchase_order_products})
@@ -222,6 +220,29 @@ def createStockEntry(request):
             pass
             return redirect('valueChainApp:stock-entry-list')
     return render(request, 'create_stock_entry.html', {'products': products, 'product_issues': product_issues})
+
+
+def createProductionCost(request):
+    if not request.user.is_authenticated:
+        return redirect('valueChainApp:home')
+    else:
+        product_issues = ProductIssue.objects.all()
+        if request.method == 'POST':
+            product_issue = request.POST.get('product_issue')
+            cost_type = request.POST.getlist('cost_type[]')
+            total = request.POST.getlist('total[]')
+
+            product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
+
+            for cost_type, total in zip(cost_type, total):
+                ProductionCost.objects.create(
+                    creator=request.user,
+                    cost_type=cost_type,
+                    product_issue=product_issue_ins,
+                    total=total
+                )
+            return redirect('valueChainApp:production-cost-list')
+    return render(request, 'create_production_cost.html', {'product_issues': product_issues})
 
 
 def productList(request):
@@ -321,11 +342,3 @@ def deliveryChallanList(request):
     else:
         deliveryChallanList = DeliveryChallan.objects.all()
     return render(request, 'delivery_challan_list.html', {'deliveryChallanList': deliveryChallanList})
-
-
-def getRawMaterialProducts(request):
-    print("view function...........")
-    raw_materials_id = request.GET.get('raw_materials_id')
-    data = list(
-        RawMaterialsProduct.objects.filter(raw_materials_id=raw_materials_id).values('product', 'uom', 'qty'))
-    return JsonResponse(data, safe=False)
