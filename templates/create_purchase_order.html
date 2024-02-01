@@ -42,7 +42,7 @@
 <!--                                <option value="{{ product.pk }}">{{ product.product_name }}</option>-->
 <!--&lt;!&ndash;                                {% endfor %}&ndash;&gt;-->
 <!--                            </select></td>-->
-                            <td><input type="text" name="product[]" class="form-control" readonly placeholder="{{ raw_mat_pro.product.product_name }}"  value="{{ raw_mat_pro.product }}"></td>
+                            <td><input type="text" name="product[]" class="form-control" readonly placeholder="{{ raw_mat_pro.product.product_name }}"  value="{{ raw_mat_pro.product.pk }}"></td>
                             <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required value="{{ raw_mat_pro.uom }}"></td>
                             <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly required value="{{ raw_mat_pro.qty }}">
                             <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" required>

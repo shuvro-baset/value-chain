@@ -99,7 +99,7 @@ def createRawMaterial(request):
 
 def createPurchaseOrder(request, raw_materials_no):
     products = Product.objects.all()
-    raw_materials_ins = get_object_or_404(RawMaterialsProduct, id=raw_materials_no)
+    raw_materials_ins = get_object_or_404(RawMaterials, id=raw_materials_no)
     if raw_materials_ins:
         raw_material_products = RawMaterialsProduct.objects.filter(raw_materials_id=raw_materials_ins.id)
 
@@ -110,7 +110,7 @@ def createPurchaseOrder(request, raw_materials_no):
         if request.method == 'POST':
             raw_materials = raw_materials_ins.id
             purchas_order_no = request.POST.get('purchase_order_no')
-            product_issue = raw_materials_ins.product_issue
+            product_issue = raw_materials_ins.product_issue.id
             total_qty = 0
             total = 0
 
@@ -131,7 +131,7 @@ def createPurchaseOrder(request, raw_materials_no):
                 creator=request.user,
                 purchas_order_no=purchas_order_no,
                 description=request.POST.get('description'),
-                raw_materials=raw_materials_ins.id,
+                raw_materials=raw_materials_ins,
                 product_issue=product_issue_ins,
                 total_qty=total_qty,
                 total=total
@@ -145,7 +145,8 @@ def createPurchaseOrder(request, raw_materials_no):
                     qty=qty,
                     rate=rate,
                     raw_materials=raw_materials_ins.raw_materials_no,
-                    product_issue=product_issue_ins.issue_no
+                    product_issue=product_issue_ins.issue_no,
+                    purchase_order=purchase_order
                 )
 
             return redirect('valueChainApp:purchase-order-list')
