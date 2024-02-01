@@ -69,7 +69,7 @@ class ProductionCostAdmin(admin.ModelAdmin):
 
 @admin.register(StockEntry)
 class StockEntryAdmin(admin.ModelAdmin):
-    list_display = ['creator', 'date', 'product_issue', 'total_qty', 'total']
+    list_display = ['creator', 'date', 'product_issue', 'qty', 'total']
 
 
 @admin.register(SalesOrder)

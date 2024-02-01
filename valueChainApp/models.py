@@ -130,7 +130,10 @@ class StockEntry(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
-    total_qty = models.DecimalField(max_digits=8, decimal_places=2)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uom = models.CharField(max_length=50, null=True, blank=True)
+    qty = models.DecimalField(max_digits=8, decimal_places=2)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=8, decimal_places=2)
 
 
@@ -139,7 +142,7 @@ class StockEntryProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     uom = models.CharField(max_length=50)
     qty = models.DecimalField(max_digits=8, decimal_places=2)
-    rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    rate = models.DecimalField(max_digits=8, decimal_places=2)
     product_issue = models.CharField(max_length=50)
 
 
