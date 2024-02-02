@@ -46,6 +46,11 @@ class RawMaterials(models.Model):
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
 
+    def save(self, *args, **kwargs):
+        if self.product_issue:
+            self.product_issue.status = 'PROCESSING'
+            self.product_issue.save()
+
 
 class RawMaterialsProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -71,6 +76,11 @@ class PurchaseOrder(models.Model):
     total = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
 
+    def save(self, *args, **kwargs):
+        if self.raw_materials:
+            self.raw_materials.status = 'PROCESSING'
+            self.raw_materials.save()
+
 
 class PurchaseOrderProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -83,7 +93,7 @@ class PurchaseOrderProduct(models.Model):
 
 
 class PurchaseReceipt(models.Model):
-    purchas_receipt_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    purchase_receipt_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -91,6 +101,21 @@ class PurchaseReceipt(models.Model):
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        if self.purchase_order:
+            self.purchase_order.status = 'COMPLETE'
+            self.purchase_order.save()
+
+        raw_materials = self.purchase_order.raw_materials
+        raw_materials.status = 'COMPLETE'
+        raw_materials.save()
+
+        product_issue = self.product_issue
+        product_issue.production_cost = self.total
+        product_issue.save()
+
+        super().save(*args, **kwargs)
 
 
 class PurchaseReceiptProduct(models.Model):

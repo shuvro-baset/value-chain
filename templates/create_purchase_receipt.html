@@ -14,7 +14,7 @@
                 <form id="myForm" method="POST" action="">
                     {% csrf_token %} {{ form.as_p }}
                     <label>Purchase Receipt No:</label>
-                    <input type="text" name="purchas_receipt_no" placeholder="Purchase Receipt No..."
+                    <input type="text" name="purchase_receipt_no" placeholder="Purchase Receipt No..."
                            class="form-control"
                            required>
 
@@ -28,7 +28,8 @@
                     <table class="table" id="product-table">
                         <thead>
                         <tr>
-                            <th>Product</th>
+                            <th hidden="hidden">Product</th>
+                            <th>Product Name</th>
                             <th>UOM</th>
                             <th>QTY</th>
                             <th>Rate</th>
@@ -37,8 +38,9 @@
                         <tbody>
                         {% for po in purchase_order_products %}
                         <tr id="row-template">
-                            <td><input type="text" name="product[]" class="form-control" readonly
-                                       placeholder="{{ po.product.product_name }}" value="{{ po.product.pk }}"></td>
+                            <td hidden="hidden"><input type="text" name="product[]" class="form-control" readonly
+                                                       value="{{ po.product.pk }}"></td>
+                            <td>{{ po.product.product_name }}</td>
                             <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required
                                        value="{{ po.uom }}"></td>
                             <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly

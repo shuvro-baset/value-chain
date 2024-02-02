@@ -43,7 +43,7 @@ class PurchaseOrderProductAdmin(admin.ModelAdmin):
 
 @admin.register(PurchaseReceipt)
 class PurchaseReceiptAdmin(admin.ModelAdmin):
-    list_display = ['id', 'purchas_receipt_no', 'purchase_order', 'creator', 'date', 'description', 'product_issue',
+    list_display = ['id', 'purchase_receipt_no', 'purchase_order', 'creator', 'date', 'description', 'product_issue',
                     'total_qty', 'total']
 
 

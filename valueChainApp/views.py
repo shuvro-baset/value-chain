@@ -101,10 +101,6 @@ def createRawMaterial(request):
                     product_issue=product_issue_ins.issue_no
                 )
 
-            # ToDo: udpate status of product issue
-            product_issue_ins.status = 'PROCESSING'
-            product_issue_ins.save()
-
             return redirect('valueChainApp:raw-materials-list')
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
@@ -163,8 +159,6 @@ def createPurchaseOrder(request, raw_materials_no):
                     purchase_order=purchase_order
                 )
 
-            raw_materials_ins.status = 'PROCESSING'
-            raw_materials_ins.save()
             return redirect('valueChainApp:purchase-order-list')
     return render(request, 'create_purchase_order.html', {'raw_material_products': raw_material_products})
 
@@ -180,6 +174,11 @@ def createPurchaseReceipt(request, purchase_order_no):
         if request.method == 'POST':
             purchase_order = purchase_order_ins.id
             purchase_receipt_no = request.POST.get('purchase_receipt_no')
+            if PurchaseReceipt.objects.filter(purchase_receipt_no=purchase_receipt_no).exists():
+                messages.error(request, 'Purchase Receipt number already exists. Please provide a unique number.')
+                return render(request, 'create_purchase_receipt.html',
+                              {'purchase_order_products': purchase_order_products})
+
             product_issue = purchase_order_ins.product_issue.id
             total_qty = 0
             total = 0
@@ -198,7 +197,7 @@ def createPurchaseReceipt(request, purchase_order_no):
             # Create RawMaterials instance
             purchase_receipt = PurchaseReceipt.objects.create(
                 creator=request.user,
-                purchas_receipt_no=purchase_receipt_no,
+                purchase_receipt_no=purchase_receipt_no,
                 description=request.POST.get('description'),
                 purchase_order=purchase_order_ins,
                 product_issue=product_issue_ins,
