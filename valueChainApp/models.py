@@ -44,7 +44,7 @@ class RawMaterials(models.Model):
     date = models.DateField(auto_now_add=True)
     description = models.TextField()
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
-    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
+    status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
 
 
 class RawMaterialsProduct(models.Model):
@@ -69,7 +69,7 @@ class PurchaseOrder(models.Model):
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
-    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
+    status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
 
 
 class PurchaseOrderProduct(models.Model):
@@ -145,7 +145,7 @@ class SalesOrder(models.Model):
     description = models.TextField()
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
-    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
+    status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
 
 
 class SalesOrderProduct(models.Model):

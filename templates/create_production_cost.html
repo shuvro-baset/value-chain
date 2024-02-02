@@ -36,7 +36,8 @@
                         <tr id="row-template">
 
                             <td><input type="text" name="cost_type[]" id="cost_type" class="form-control" required></td>
-                            <td><input type="number" name="total[]" id="total" step="0.01" class="form-control" required>
+                            <td><input type="number" name="total[]" id="total" step="0.01" class="form-control"
+                                       required>
                             </td>
                             <td>
                                 <button type="button" class="remove-row btn btn-outline-danger">Remove</button>
@@ -51,9 +52,13 @@
                 </form>
 
             </div>
-            {% for message in messages %}
-            <p id="messages"> {{ message }}</p>
-            {% endfor %}
+            {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                <p id="messages"> {{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
 
 
         </div>

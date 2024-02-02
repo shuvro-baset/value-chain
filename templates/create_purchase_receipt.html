@@ -13,8 +13,9 @@
             <div class="d-flex justify-content-center form_container">
                 <form id="myForm" method="POST" action="">
                     {% csrf_token %} {{ form.as_p }}
-					<label>Purchase Receipt No:</label>
-                    <input type="text" name="purchas_receipt_no" placeholder="Purchase Receipt No..." class="form-control"
+                    <label>Purchase Receipt No:</label>
+                    <input type="text" name="purchas_receipt_no" placeholder="Purchase Receipt No..."
+                           class="form-control"
                            required>
 
 
@@ -36,10 +37,14 @@
                         <tbody>
                         {% for po in purchase_order_products %}
                         <tr id="row-template">
-                            <td><input type="text" name="product[]" class="form-control" readonly placeholder="{{ po.product.product_name }}"  value="{{ po.product.pk }}"></td>
-                            <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required value="{{ po.uom }}"></td>
-                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly required value="{{ po.qty }}">
-                            <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" readonly required value="{{ po.rate }}"></td>
+                            <td><input type="text" name="product[]" class="form-control" readonly
+                                       placeholder="{{ po.product.product_name }}" value="{{ po.product.pk }}"></td>
+                            <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required
+                                       value="{{ po.uom }}"></td>
+                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly
+                                       required value="{{ po.qty }}">
+                            <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" readonly
+                                       required value="{{ po.rate }}"></td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -50,16 +55,18 @@
                 </form>
 
             </div>
-            {% for message in messages %}
-            <p id="messages"> {{ message }}</p>
-            {% endfor %}
+            {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                <p id="messages"> {{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
 
 
         </div>
     </div>
 </div>
-
-
 
 
 {% endblock %}

@@ -27,7 +27,8 @@
                     <table class="table" id="product-table">
                         <thead>
                         <tr>
-                            <th>Product</th>
+                            <th hidden="hidden">Product</th>
+                            <th>Product Name</th>
                             <th>UOM</th>
                             <th>QTY</th>
                             <th>Rate</th>
@@ -36,9 +37,14 @@
                         <tbody>
                         {% for raw_mat_pro in raw_material_products %}
                         <tr id="row-template">
-                            <td><input type="text" name="product[]" class="form-control" readonly placeholder="{{ raw_mat_pro.product.product_name }}"  value="{{ raw_mat_pro.product.pk }}"></td>
-                            <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required value="{{ raw_mat_pro.uom }}"></td>
-                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly required value="{{ raw_mat_pro.qty }}">
+                            <td hidden="hidden"><input  type="text" name="product[]" class="form-control" readonly
+
+                                       value="{{ raw_mat_pro.product.pk }}"></td>
+                            <td>{{ raw_mat_pro.product.product_name }}</td>
+                            <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required
+                                       value="{{ raw_mat_pro.uom }}"></td>
+                            <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly
+                                       required value="{{ raw_mat_pro.qty }}">
                             <td><input type="number" name="rate[]" id="rate" step="0.01" class="form-control" required>
                             </td>
                         </tr>
@@ -51,15 +57,18 @@
                 </form>
 
             </div>
-            {% for message in messages %}
-            <p id="messages"> {{ message }}</p>
-            {% endfor %}
+            {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                <p id="messages"> {{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
 
 
         </div>
     </div>
 </div>
-
 
 
 {% endblock %}

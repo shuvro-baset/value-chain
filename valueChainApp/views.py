@@ -120,6 +120,11 @@ def createPurchaseOrder(request, raw_materials_no):
         if request.method == 'POST':
             raw_materials = raw_materials_ins.id
             purchas_order_no = request.POST.get('purchase_order_no')
+            if PurchaseOrder.objects.filter(purchas_order_no=purchas_order_no).exists():
+                messages.error(request, 'Purchase Order number already exists. Please provide a unique number.')
+                return render(request, 'create_purchase_order.html',
+                              {'raw_material_products': raw_material_products})
+
             product_issue = raw_materials_ins.product_issue.id
             total_qty = 0
             total = 0
@@ -158,8 +163,8 @@ def createPurchaseOrder(request, raw_materials_no):
                     purchase_order=purchase_order
                 )
 
-            # ToDo: udpate status
-
+            raw_materials_ins.status = 'PROCESSING'
+            raw_materials_ins.save()
             return redirect('valueChainApp:purchase-order-list')
     return render(request, 'create_purchase_order.html', {'raw_material_products': raw_material_products})
 
