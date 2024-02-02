@@ -122,7 +122,7 @@ def createPurchaseOrder(request, raw_materials_no):
 
             for product, rate, qty in zip(products, rates, qtys):
                 total_qty = total_qty + float(qty)
-                total = total + float(rate)
+                total = total + (float(rate) * float(qty))
 
             product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
 
@@ -177,7 +177,7 @@ def createPurchaseReceipt(request, purchase_order_no):
 
             for product, rate, qty in zip(products, rates, qtys):
                 total_qty = total_qty + float(qty)
-                total = total + float(rate)
+                total = total + (float(rate) * float(qty))
 
             product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
 
@@ -281,22 +281,18 @@ def createSalesOrder(request):
     else:
         if request.method == 'POST':
             sales_order_no = request.POST.get('sales_order_no')
-            # product_issue = raw_materials_ins.product_issue.id
-            # total_qty = 0
-            # total = 0
-            #
-            # products = request.POST.getlist('product[]')
-            # uoms = request.POST.getlist('uom[]')
-            # qtys = request.POST.getlist('qty[]')
-            # rates = request.POST.getlist('rate[]')
-            #
-            # for product, rate, qty in zip(products, rates, qtys):
-            #     total_qty = total_qty + float(qty)
-            #     total = total + float(rate)
-            #
-            # product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
-            #
-            # # Create RawMaterials instance
+            total_qty = 0
+            total = 0
+
+            products = request.POST.getlist('product[]')
+            uoms = request.POST.getlist('uom[]')
+            qtys = request.POST.getlist('qty[]')
+            rates = request.POST.getlist('rate[]')
+
+            for product, rate, qty in zip(products, rates, qtys):
+                total_qty = total_qty + float(qty)
+                total = total + (float(rate) * float(qty))
+
             sales_order = SalesOrder.objects.create(
                 creator=request.user,
                 sales_order_no=sales_order_no,
@@ -307,11 +303,11 @@ def createSalesOrder(request):
 
             for product, uom, qty, rate in zip(products, uoms, qtys, rates):
                 SalesOrderProduct.objects.create(
+                    sales_order=sales_order,
                     product=Product.objects.get(pk=product),
                     uom=uom,
                     qty=qty,
                     rate=rate,
-                    sales_order=sales_order
                 )
 
             # ToDo: udpate status
