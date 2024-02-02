@@ -48,10 +48,8 @@ def createProductIssue(request):
             product_id = request.POST.get('product')
             issue_no = request.POST.get('issue_no')
 
-            # Retrieve the Product instance corresponding to the selected product ID
             product = get_object_or_404(Product, pk=product_id)
 
-            # ToDo: product_name unique validation check and sending message.
             product_issue = ProductIssue.objects.create(
                 description=description,
                 total_qty=total_qty,
@@ -65,14 +63,19 @@ def createProductIssue(request):
 
 
 def createRawMaterial(request):
-    products = Product.objects.all()
-    product_issues = ProductIssue.objects.all()
+    products = Product.objects.exclude(product_group__icontains='Finished Goods')
+    product_issues = ProductIssue.objects.exclude(status='COMPLETE')
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
             raw_materials_no = request.POST.get('raw_materials_no')
+            if RawMaterials.objects.filter(raw_materials_no=raw_materials_no).exists():
+                messages.error(request, 'Raw materials number already exists. Please provide a unique number.')
+                return render(request, 'create_raw_materials.html',
+                              {'products': products, 'product_issues': product_issues})
+
             products = request.POST.getlist('product[]')
             uoms = request.POST.getlist('uom[]')
             qtys = request.POST.getlist('qty[]')
@@ -99,6 +102,8 @@ def createRawMaterial(request):
                 )
 
             # ToDo: udpate status of product issue
+            product_issue_ins.status = 'PROCESSING'
+            product_issue_ins.save()
 
             return redirect('valueChainApp:raw-materials-list')
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
