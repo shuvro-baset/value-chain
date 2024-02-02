@@ -32,6 +32,17 @@ class ProductIssue(models.Model):
     production_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
+    def save(self, *args, **kwargs):
+        if self.status == 'COMPLETE':
+            # Calculate unit_price only if status is 'COMPLETE'
+            if self.total_qty and self.total_qty > 0 and self.production_cost > 0:
+                self.unit_price = self.production_cost / self.total_qty
+            else:
+                # Handle division by zero or missing values
+                self.unit_price = 0  # Set to default value
+
+        super().save(*args, **kwargs)
+
 
 class RawMaterials(models.Model):
     STATUS = (
@@ -50,6 +61,7 @@ class RawMaterials(models.Model):
         if self.product_issue:
             self.product_issue.status = 'PROCESSING'
             self.product_issue.save()
+        super().save(*args, **kwargs)
 
 
 class RawMaterialsProduct(models.Model):
@@ -80,6 +92,8 @@ class PurchaseOrder(models.Model):
         if self.raw_materials:
             self.raw_materials.status = 'PROCESSING'
             self.raw_materials.save()
+
+        super().save(*args, **kwargs)
 
 
 class PurchaseOrderProduct(models.Model):
@@ -112,7 +126,7 @@ class PurchaseReceipt(models.Model):
         raw_materials.save()
 
         product_issue = self.product_issue
-        product_issue.production_cost = self.total
+        product_issue.production_cost = float(product_issue.production_cost) + float(self.total)
         product_issue.save()
 
         super().save(*args, **kwargs)
@@ -135,6 +149,13 @@ class ProductionCost(models.Model):
     cost_type = models.CharField(max_length=250, null=True, blank=True)
     product_issue = models.ForeignKey(ProductIssue, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        product_issue = self.product_issue
+        product_issue.production_cost = float(product_issue.production_cost) + float(self.total)
+        product_issue.save()
+
+        super().save(*args, **kwargs)
 
 
 class StockEntry(models.Model):
