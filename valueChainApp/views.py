@@ -209,17 +209,40 @@ def createPurchaseReceipt(request, purchase_order_no):
     return render(request, 'create_purchase_receipt.html', {'purchase_order_products': purchase_order_products})
 
 
-def createStockEntry(request):
-    products = Product.objects.all()
-    product_issues = ProductIssue.objects.all()
+def createStockEntry(request, product_issue_no):
+    product_issue_ins = get_object_or_404(ProductIssue, id=product_issue_no)
+    if product_issue_ins:
+        product_issue = ProductIssue.objects.get(id=product_issue_ins.id)
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
-            pass
-            return redirect('valueChainApp:stock-entry-list')
-    return render(request, 'create_stock_entry.html', {'products': products, 'product_issues': product_issues})
+            stock_entry_no = request.POST.get('stock_entry_no')
+            product_issue = product_issue_ins
+            product = product_issue_ins.product
+            uom = product_issue_ins.product.uom
+            qty = request.POST.get('qty')
+            rate = request.POST.get('rate')
+            total = float(qty) * float(rate)
+
+            stock_entry = StockEntry.objects.create(
+                creator=request.user,
+                stock_entry_no=stock_entry_no,
+                product_issue=product_issue,
+                product=product,
+                uom=uom,
+                qty=qty,
+                rate=rate,
+                total=total
+            )
+            if stock_entry:
+                # ToDo: unit price calculation..... and update product rate.
+                return redirect('valueChainApp:stock-entry-list')
+            else:
+                # ToDo: if any issue or validation failed then throw error message
+                return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
+    return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
 
 
 def createProductionCost(request):

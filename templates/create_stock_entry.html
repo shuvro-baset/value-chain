@@ -17,19 +17,13 @@
                     <input type="text" name="stock_entry_no" placeholder="Stock Entry No..." class="form-control"
                            required>
 
-                    <label>Please Select Product Issue No</label>
-                    <select name="product_issue" class="form-control" required>
-                        <option disabled>Select Product Issue No</option>
-                        {% for product_issue in product_issues %}
-                        <option value="{{ product_issue.id }}">{{ product_issue.id }}</option>
-                        {% endfor %}
-                    </select>
+                    <label>Product Issue No: <strong>{{ product_issue.issue_no }}</strong> </label>
                     <br>
-                    <label>Add Products</label>
+                    <label>Products Details</label>
                     <table class="table" id="product-table">
                         <thead>
                         <tr>
-                            <th>Product</th>
+                            <th>Product Name</th>
                             <th>UOM</th>
                             <th>QTY</th>
                             <th>Rate</th>
@@ -37,14 +31,9 @@
                         </thead>
                         <tbody>
                         <tr id="row-template">
-                            <td><select name="product[]" id="product" class="form-control">
-                                <option disabled>Select Product</option>
-                                {% for product in products %}
-                                <option value="{{ product.pk }}">{{ product.product_name }}</option>
-                                {% endfor %}
-                            </select></td>
-                            <td><input type="text" name="uom" id="uom" class="form-control" required></td>
-                            <td><input type="number" name="qty" id="qty" step="0.01" class="form-control" required>
+                            <td> <small>{{ product_issue.product.product_name }}</small> </td>
+                            <td>{{ product_issue.product.uom }}</td>
+                            <td><input type="number" name="qty" id="qty" step="0.01" class="form-control" value="{{ product_issue.product.qty }}" required>
                             <td><input type="number" name="rate" id="rate" step="0.01" class="form-control" required>
                             </td>
                         </tr>
