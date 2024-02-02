@@ -22,7 +22,11 @@ def createProduct(request):
             product_group = request.POST.get('product_group')
             uom = request.POST.get('uom')
 
-            # ToDo: product_name unique validation check and sending message.
+            existing_product = Product.objects.filter(product_name=product_name).first()
+            if existing_product:
+                messages.error(request, f'A product with the name "{product_name}" already exists.')
+                return render(request, 'create_product.html')
+
             product = Product.objects.create(
                 product_name=product_name,
                 product_group=product_group,
