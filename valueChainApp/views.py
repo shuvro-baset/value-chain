@@ -6,6 +6,7 @@ from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, Purchase
     StockEntry, ProductionCost, RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, \
     SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
+from django.db.models import Q
 
 
 def home(request):
@@ -269,14 +270,17 @@ def createProductionCost(request):
 
 
 def createSalesOrder(request):
-    products = Product.objects.all()
+    # products = Product.objects.all()
+    products = Product.objects.filter(
+        Q(product_group__iexact='Finished Goods') |  # Case-insensitive match
+        Q(product_group__icontains='finished goods')  # Case-insensitive partial match
+    )
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
-            # raw_materials = raw_materials_ins.id
-            # purchas_order_no = request.POST.get('purchase_order_no')
+            sales_order_no = request.POST.get('sales_order_no')
             # product_issue = raw_materials_ins.product_issue.id
             # total_qty = 0
             # total = 0
@@ -293,27 +297,22 @@ def createSalesOrder(request):
             # product_issue_ins = get_object_or_404(ProductIssue, pk=product_issue)
             #
             # # Create RawMaterials instance
-            # purchase_order = PurchaseOrder.objects.create(
-            #     creator=request.user,
-            #     purchas_order_no=purchas_order_no,
-            #     description=request.POST.get('description'),
-            #     raw_materials=raw_materials_ins,
-            #     product_issue=product_issue_ins,
-            #     total_qty=total_qty,
-            #     total=total
-            # )
-            #
-            # # Create RawMaterialsProduct instances for each row
-            # for product, uom, qty, rate in zip(products, uoms, qtys, rates):
-            #     PurchaseOrderProduct.objects.create(
-            #         product=Product.objects.get(pk=product),
-            #         uom=uom,
-            #         qty=qty,
-            #         rate=rate,
-            #         raw_materials=raw_materials_ins.raw_materials_no,
-            #         product_issue=product_issue_ins.issue_no,
-            #         purchase_order=purchase_order
-            #     )
+            sales_order = SalesOrder.objects.create(
+                creator=request.user,
+                sales_order_no=sales_order_no,
+                description=request.POST.get('description'),
+                total_qty=total_qty,
+                total=total
+            )
+
+            for product, uom, qty, rate in zip(products, uoms, qtys, rates):
+                SalesOrderProduct.objects.create(
+                    product=Product.objects.get(pk=product),
+                    uom=uom,
+                    qty=qty,
+                    rate=rate,
+                    sales_order=sales_order
+                )
 
             # ToDo: udpate status
 
