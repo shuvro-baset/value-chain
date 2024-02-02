@@ -24,6 +24,7 @@ urlpatterns = [
     path("<int:purchase_order_no>/create-purchase-receipt/", createPurchaseReceipt, name="create-purchase-receipt"),
     path("<int:product_issue_no>/create-stock-entry/", createStockEntry, name="create-stock-entry"),
     path("add-production-cost/", createProductionCost, name="add-production-cost"),
+    path("create-sales-order/", createSalesOrder, name="create-sales-order"),
 
 
 ]
