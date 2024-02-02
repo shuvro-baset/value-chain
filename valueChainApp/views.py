@@ -316,6 +316,55 @@ def createSalesOrder(request):
     return render(request, 'create_sales_order.html', {'products': products})
 
 
+def createDeliveryChallan(request, sales_order_no):
+    sales_order_ins = get_object_or_404(SalesOrder, id=sales_order_no)
+    if sales_order_ins:
+        sales_order_products = SalesOrderProduct.objects.filter(sales_order=sales_order_ins.id)
+
+    if not request.user.is_authenticated:
+        return redirect('valueChainApp:home')
+
+    else:
+        if request.method == 'POST':
+            sales_order = sales_order_ins.id
+            delivery_challan_no = request.POST.get('delivery_challan_no')
+            total_qty = 0
+            total = 0
+
+            products = request.POST.getlist('product[]')
+            uoms = request.POST.getlist('uom[]')
+            qtys = request.POST.getlist('qty[]')
+            rates = request.POST.getlist('rate[]')
+
+            for product, rate, qty in zip(products, rates, qtys):
+                total_qty = total_qty + float(qty)
+                total = total + (float(rate) * float(qty))
+
+            delivery_challan = DeliveryChallan.objects.create(
+                delivery_challan_no=delivery_challan_no,
+                creator=request.user,
+                sales_order=sales_order_ins,
+                description=request.POST.get('description'),
+                total_qty=total_qty,
+                total=total
+            )
+
+            for product, uom, qty, rate in zip(products, uoms, qtys, rates):
+                DeliveryChallanProduct.objects.create(
+                    delivery_challan=delivery_challan,
+                    sales_order=sales_order,
+                    product=Product.objects.get(pk=product),
+                    uom=uom,
+                    qty=qty,
+                    rate=rate,
+                )
+
+            # ToDo: udpate status update stock..........
+
+            return redirect('valueChainApp:delivery-challan-list')
+    return render(request, 'create_delivery_challan.html', {'sales_order_products': sales_order_products})
+
+
 def productList(request):
     context = {}
     if not request.user.is_authenticated:

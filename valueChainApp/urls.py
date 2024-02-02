@@ -25,6 +25,7 @@ urlpatterns = [
     path("<int:product_issue_no>/create-stock-entry/", createStockEntry, name="create-stock-entry"),
     path("add-production-cost/", createProductionCost, name="add-production-cost"),
     path("create-sales-order/", createSalesOrder, name="create-sales-order"),
+    path("<int:sales_order_no>/create-delivery-challan/", createDeliveryChallan, name="create-delivery-challan"),
 
 
 ]
