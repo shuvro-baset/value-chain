@@ -43,7 +43,7 @@ def createProduct(request):
 
 
 def createProductIssue(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(is_finished_good=True)
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
@@ -68,7 +68,7 @@ def createProductIssue(request):
 
 
 def createRawMaterial(request):
-    products = Product.objects.exclude(product_group__icontains='Finished Goods')
+    products = Product.objects.filter(is_finished_good=False)
     product_issues = ProductIssue.objects.exclude(status='COMPLETE')
 
     if not request.user.is_authenticated:
@@ -299,10 +299,7 @@ def createProductionCost(request):
 
 def createSalesOrder(request):
     # products = Product.objects.all()
-    products = Product.objects.filter(
-        Q(product_group__iexact='Finished Goods') |  # Case-insensitive match
-        Q(product_group__icontains='finished goods')  # Case-insensitive partial match
-    )
+    products = Product.objects.filter(is_finished_good=True)
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
