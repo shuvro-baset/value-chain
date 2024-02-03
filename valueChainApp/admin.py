@@ -5,7 +5,7 @@ from .models import *
 # Register your models here.
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product_name', 'product_group', 'uom', 'qty', 'rate', 'stock_qty', 'stock_rate', 'avg_rate']
+    list_display = ['id', 'product_name', 'product_group', 'uom', 'qty', 'rate', 'stock_qty', 'stock_rate', 'avg_rate', 'is_finished_good']
 
 
 @admin.register(ProductIssue)

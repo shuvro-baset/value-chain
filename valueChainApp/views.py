@@ -22,6 +22,9 @@ def createProduct(request):
             product_name = request.POST.get('product_name')
             product_group = request.POST.get('product_group')
             uom = request.POST.get('uom')
+            is_finished_good = request.POST.get('is_finished_good') == 'on'
+            if is_finished_good is None:
+                is_finished_good = False
 
             existing_product = Product.objects.filter(product_name=product_name).first()
             if existing_product:
@@ -31,7 +34,8 @@ def createProduct(request):
             product = Product.objects.create(
                 product_name=product_name,
                 product_group=product_group,
-                uom=uom
+                uom=uom,
+                is_finished_good=is_finished_good
             )
             messages.info(request, 'Product Succesfully Created.....')
             return redirect("valueChainApp:product-list")
@@ -218,7 +222,6 @@ def createPurchaseReceipt(request, purchase_order_no):
                     purchase_order=purchase_order_ins,
                     purchase_receipt=purchase_receipt
                 )
-
 
             return redirect('valueChainApp:purchase-receipt-list')
     return render(request, 'create_purchase_receipt.html', {'purchase_order_products': purchase_order_products})
