@@ -502,3 +502,9 @@ def singleProduct(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     context = {'product': product}
     return render(request, 'product_details.html', context)
+
+
+def singleProductIssue(request, product_issue_id):
+    product_issue = get_object_or_404(ProductIssue, pk=product_issue_id)
+    context = {'product_issue': product_issue}
+    return render(request, 'product_issue_details.html', context)

@@ -25,6 +25,7 @@ urlpatterns = [
     path("sales-order-list/", salesOrderList, name="sales-order-list"),
     path("delivery-challan-list/", deliveryChallanList, name="delivery-challan-list"),
     path("product-details/<int:product_id>", singleProduct, name="product-details"),
+    path("product-issue-details/<int:product_issue_id>", singleProductIssue, name="product-issue-details"),
 
 
 ]
