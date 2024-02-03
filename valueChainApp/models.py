@@ -28,7 +28,7 @@ class ProductIssue(models.Model):
     description = models.TextField(null=True, blank=True)
     total_qty = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    status = models.CharField(max_length=100, null=True, blank=True, choices=STATUS, default=STATUS[0])
+    status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
     production_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 

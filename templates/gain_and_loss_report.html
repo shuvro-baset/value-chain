@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Product-wise Gain and Loss Report</h1>
+<table border="1">
+    <tr>
+        <th>Product Name</th>
+        <th>COGS</th>
+        <th>Revenue</th>
+        <th>Gross Profit</th>
+    </tr>
+    {% for report in product_reports %}
+    <tr>
+        <td>{{ report.product.product_name }}</td>
+        <td>{{ report.cogs }}</td>
+        <td>{{ report.revenue }}</td>
+        <td>{{ report.gross_profit }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

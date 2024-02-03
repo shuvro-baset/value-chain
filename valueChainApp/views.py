@@ -6,7 +6,7 @@ from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, Purchase
     StockEntry, ProductionCost, RawMaterialsProduct, PurchaseOrderProduct, PurchaseReceiptProduct, \
     SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Sum, F
 from django.db import models
 
 
@@ -71,6 +71,7 @@ def createRawMaterial(request):
     products = Product.objects.filter(is_finished_good=False)
     product_issues = ProductIssue.objects.exclude(status='COMPLETE')
 
+
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
@@ -120,8 +121,8 @@ def createPurchaseOrder(request, raw_materials_no):
     else:
         if request.method == 'POST':
             raw_materials = raw_materials_ins.id
-            purchas_order_no = request.POST.get('purchase_order_no')
-            if PurchaseOrder.objects.filter(purchas_order_no=purchas_order_no).exists():
+            purchase_order_no = request.POST.get('purchase_order_no')
+            if PurchaseOrder.objects.filter(purchase_order_no=purchase_order_no).exists():
                 messages.error(request, 'Purchase Order number already exists. Please provide a unique number.')
                 return render(request, 'create_purchase_order.html',
                               {'raw_material_products': raw_material_products})
@@ -144,7 +145,7 @@ def createPurchaseOrder(request, raw_materials_no):
             # Create RawMaterials instance
             purchase_order = PurchaseOrder.objects.create(
                 creator=request.user,
-                purchas_order_no=purchas_order_no,
+                purchase_order_no=purchase_order_no,
                 description=request.POST.get('description'),
                 raw_materials=raw_materials_ins,
                 product_issue=product_issue_ins,
@@ -508,3 +509,38 @@ def singleProductIssue(request, product_issue_id):
     product_issue = get_object_or_404(ProductIssue, pk=product_issue_id)
     context = {'product_issue': product_issue}
     return render(request, 'product_issue_details.html', context)
+
+
+def product_wise_report(request):
+    finished_products = Product.objects.filter(is_finished_good=True)
+    product_reports = []
+
+    for product in finished_products:
+        # Calculate COGS for the product
+        cogs = ProductIssue.objects.filter(product=product, status='COMPLETE').aggregate(
+            total_production_cost=Sum('production_cost')
+        )['total_production_cost'] or 0.0
+
+        # Calculate Revenue for the product
+        revenue = DeliveryChallan.objects.filter(
+            sales_order__status='COMPLETE', deliverychallanproduct__product=product
+        ).aggregate(total_sales=Sum(F('deliverychallanproduct__qty') * F('deliverychallanproduct__rate')))[
+                      'total_sales'] or 0.0
+
+        print("revenue: ", product.product_name, revenue)
+        # Calculate Gross Profit for the product
+        gross_profit = float(revenue) - float(cogs)
+
+        product_report = {
+            'product': product,
+            'cogs': cogs,
+            'revenue': revenue,
+            'gross_profit': gross_profit
+        }
+        product_reports.append(product_report)
+
+    context = {
+        'product_reports': product_reports
+    }
+
+    return render(request, 'gain_and_loss_report.html', context)
