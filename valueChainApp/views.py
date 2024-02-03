@@ -306,6 +306,10 @@ def createSalesOrder(request):
     else:
         if request.method == 'POST':
             sales_order_no = request.POST.get('sales_order_no')
+            if SalesOrder.objects.filter(sales_order_no=sales_order_no).exists():
+                messages.error(request, 'Sales Order number already exists. Please provide a unique number.')
+                return render(request, 'create_sales_order.html',
+                              {'products': products})
             total_qty = 0
             total = 0
 
@@ -353,6 +357,11 @@ def createDeliveryChallan(request, sales_order_no):
         if request.method == 'POST':
             sales_order = sales_order_ins.id
             delivery_challan_no = request.POST.get('delivery_challan_no')
+            if DeliveryChallan.objects.filter(delivery_challan_no=delivery_challan_no).exists():
+                messages.error(request, 'Delivery Challan number already exists. Please provide a unique number.')
+                return render(request, 'create_sales_order.html',
+                              {'products': products})
+
             total_qty = 0
             total = 0
 
