@@ -31,10 +31,12 @@
                         </thead>
                         <tbody>
                         <tr id="row-template">
-                            <td> <small>{{ product_issue.product.product_name }}</small> </td>
+                            <td><small>{{ product_issue.product.product_name }}</small></td>
                             <td>{{ product_issue.product.uom }}</td>
-                            <td><input type="number" name="qty" id="qty" step="0.01" class="form-control" value="{{ product_issue.product.qty }}" required>
-                            <td><input type="number" name="rate" id="rate" step="0.01" class="form-control" required>
+                            <td><input type="number" name="qty" id="qty" step="0.01" class="form-control"
+                                       value="{{ product_issue.total_qty }}" required>
+                            <td><input type="number" name="rate" id="rate" step="0.01" class="form-control"
+                                       value="{{ product_issue.unit_price }}" required>
                             </td>
                         </tr>
                         </tbody>
@@ -43,9 +45,13 @@
                 </form>
 
             </div>
-            {% for message in messages %}
-            <p id="messages"> {{ message }}</p>
-            {% endfor %}
+            {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                <p id="messages"> {{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
 
 
         </div>

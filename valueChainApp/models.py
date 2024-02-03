@@ -169,6 +169,14 @@ class StockEntry(models.Model):
     rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=8, decimal_places=2)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        product = self.product
+        product.stock_qty = float(product.stock_qty) + float(self.qty)
+        product.stock_rate = float(product.stock_rate) + float(self.total)
+        product.avg_rate = float(product.stock_rate) / float(product.stock_qty)
+        product.save()
+
 
 class StockEntryProduct(models.Model):
     stock_entry = models.ForeignKey(StockEntry, on_delete=models.CASCADE)

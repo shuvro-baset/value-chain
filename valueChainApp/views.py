@@ -7,6 +7,7 @@ from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, Purchase
     SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
 from django.db.models import Q
+from django.db import models
 
 
 def home(request):
@@ -217,7 +218,7 @@ def createPurchaseReceipt(request, purchase_order_no):
                     purchase_order=purchase_order_ins,
                     purchase_receipt=purchase_receipt
                 )
-            # ToDo: udpate status and add cost to product issue .......
+
 
             return redirect('valueChainApp:purchase-receipt-list')
     return render(request, 'create_purchase_receipt.html', {'purchase_order_products': purchase_order_products})
@@ -227,18 +228,32 @@ def createStockEntry(request, product_issue_no):
     product_issue_ins = get_object_or_404(ProductIssue, id=product_issue_no)
     if product_issue_ins:
         product_issue = ProductIssue.objects.get(id=product_issue_ins.id)
+        if product_issue.status != 'COMPLETE':
+            return redirect('valueChainApp:stock-entry-list')
 
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
         if request.method == 'POST':
             stock_entry_no = request.POST.get('stock_entry_no')
+            if StockEntry.objects.filter(stock_entry_no=stock_entry_no).exists():
+                messages.error(request, 'Stock Entry number already exists. Please provide a unique number.')
+                return render(request, 'create_stock_entry.html',
+                              {'product_issue': product_issue})
+
             product_issue = product_issue_ins
             product = product_issue_ins.product
             uom = product_issue_ins.product.uom
             qty = request.POST.get('qty')
             rate = request.POST.get('rate')
             total = float(qty) * float(rate)
+
+            # Validate if stock entry exceeds product issue quantity
+            remaining_qty = product_issue.total_qty - \
+                            product_issue.stockentry_set.aggregate(total_qty=models.Sum('qty'))['total_qty'] or 0
+            if float(qty) > remaining_qty:
+                messages.error(request, 'Stock Entry quantity cannot exceed remaining quantity of Product Issue')
+                return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
 
             stock_entry = StockEntry.objects.create(
                 creator=request.user,
@@ -250,12 +265,9 @@ def createStockEntry(request, product_issue_no):
                 rate=rate,
                 total=total
             )
-            if stock_entry:
-                # ToDo: unit price calculation..... and update product rate.
-                return redirect('valueChainApp:stock-entry-list')
-            else:
-                # ToDo: if any issue or validation failed then throw error message
-                return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
+
+            return redirect('valueChainApp:stock-entry-list')
+
     return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
 
 
