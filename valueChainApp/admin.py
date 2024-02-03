@@ -29,7 +29,7 @@ class RawMaterialsProductAdmin(admin.ModelAdmin):
 
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'purchas_order_no', 'raw_materials', 'creator', 'date', 'description', 'product_issue',
+    list_display = ['id', 'purchase_order_no', 'raw_materials', 'creator', 'date', 'description', 'product_issue',
                     'total_qty', 'total', 'status']
 
 

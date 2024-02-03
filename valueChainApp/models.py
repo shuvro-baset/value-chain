@@ -78,7 +78,7 @@ class PurchaseOrder(models.Model):
         ('PROCESSING', 'PROCESSING'),
         ('COMPLETE', 'COMPLETE'),
     )
-    purchas_order_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    purchase_order_no = models.CharField(max_length=10, unique=True, null=True, blank=True)
     raw_materials = models.ForeignKey(RawMaterials, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)

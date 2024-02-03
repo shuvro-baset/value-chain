@@ -4,13 +4,53 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="row py-5">
+        <div class="col-md-12">
+            <h2 class="text-center"><b><u>Purchase Receipt List</u></b></h2>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Purchase Receipt No</th>
+                    <th scope="col">Purchase Order No</th>
+                    <th scope="col">Product Issue No</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Total Qty</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for pr in purchaseReceiptList %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ pr.purchase_receipt_no }}</td>
+                    <td>{{ pr.purchase_order.purchase_order_no }}</td>
+                    <td>{{ pr.product_issue.issue_no }}</td>
+                    <td>{{ pr.creator.first_name }} &nbsp; {{ pr.creator.last_name }}</td>
+                    <td>{{ pr.date }}</td>
+                    <td>{{ pr.description }}</td>
+                    <td>{{ pr.total_qty }}</td>
 
-<div class="container h-100">
-		<h2>Product List</h2>
-
-	{% for product in productIssue %}
-            <li>{{ product.id }} - {{product.product.product_name}}</li>
-	{% endfor %}
+                    <td>{{ pr.total }}</td>
+                    <td>
+<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-issue-details' pr.id %}">Details</a></button>-->
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+
 
 {% endblock %}

@@ -4,6 +4,47 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="row py-5">
+        <div class="col-md-12">
+            <h2 class="text-center"><b><u>Product Issue List</u></b></h2>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Raw Materials No</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Product Issue No</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for rawMat in rawMaterialList %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ rawMat.raw_materials_no }}</td>
+                    <td>{{ rawMat.creator.first_name }} &nbsp; {{ rawMat.creator.last_name }}</td>
+                    <td>{{ rawMat.date }}</td>
+                    <td>{{ rawMat.description }}</td>
+                    <td>{{ rawMat.product_issue.issue_no }}</td>
+                    <td>{{ rawMat.status }}</td>
+                    <td>
+<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-issue-details' rawMat.id %}">Details</a></button>-->
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div class="container h-100">
 		<h2>Product List</h2>
