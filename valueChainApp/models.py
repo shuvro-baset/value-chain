@@ -219,6 +219,12 @@ class DeliveryChallan(models.Model):
     total_qty = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        sales_order = self.sales_order
+        sales_order.status = 'COMPLETE'
+        sales_order.save()
+
 
 class DeliveryChallanProduct(models.Model):
     delivery_challan = models.ForeignKey(DeliveryChallan, on_delete=models.CASCADE)
@@ -227,3 +233,10 @@ class DeliveryChallanProduct(models.Model):
     qty = models.DecimalField(max_digits=8, decimal_places=2)
     rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     sales_order = models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        product = self.product
+        product.stock_qty = float(product.stock_qty) - float(self.qty)
+        product.stock_rate = float(product.stock_rate) - (float(self.qty) * float(product.avg_rate))
+        product.save()
