@@ -496,3 +496,9 @@ def deliveryChallanList(request):
     else:
         deliveryChallanList = DeliveryChallan.objects.all()
     return render(request, 'delivery_challan_list.html', {'deliveryChallanList': deliveryChallanList})
+
+
+def singleProduct(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    context = {'product': product}
+    return render(request, 'product_details.html', context)

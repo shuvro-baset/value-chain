@@ -24,5 +24,7 @@ urlpatterns = [
     path("stock-entry-list/", stockEntryList, name="stock-entry-list"),
     path("sales-order-list/", salesOrderList, name="sales-order-list"),
     path("delivery-challan-list/", deliveryChallanList, name="delivery-challan-list"),
+    path("product-details/<int:product_id>", singleProduct, name="product-details"),
+
 
 ]

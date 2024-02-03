@@ -5,12 +5,48 @@
 {% block content %}
 
 
-<div class="container h-100">
-		<h2>Product List</h2>
-
-	{% for product in products %}
-            <li>{{ product.product_name }} - {{ product.product_group }} - {{ product.uom }}</li>
-	{% endfor %}
+<div class="container">
+    <div class="row py-5">
+        <div class="col-md-12">
+            <h2 class="text-center"><b><u>Product List</u></b></h2>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Group</th>
+                    <th scope="col">UOM</th>
+                    <th scope="col">Stock Qty</th>
+                    <th scope="col">Stock Balance</th>
+                    <th scope="col">Average Rate</th>
+                    <th scope="col">Is Finished Good</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.product_group }}</td>
+                    <td>{{ product.uom }}</td>
+                    <td>{{ product.stock_qty }}</td>
+                    <td>{{ product.stock_rate }}</td>
+                    <td>{{ product.avg_rate }}</td>
+                    <td>{{ product.is_finished_good }}</td>
+                    <td>
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-details' product.id %}">Details</a></button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
