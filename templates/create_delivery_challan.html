@@ -27,7 +27,8 @@
                     <table class="table" id="product-table">
                         <thead>
                         <tr>
-                            <th>Product</th>
+                            <th hidden="hidden">Product</th>
+                            <th>Product Name</th>
                             <th>UOM</th>
                             <th>QTY</th>
                             <th>Rate</th>
@@ -36,8 +37,8 @@
                         <tbody>
                         {% for so in sales_order_products %}
                         <tr id="row-template">
-                            <td><input type="text" name="product[]" class="form-control" readonly
-                                       placeholder="{{ so.product.product_name }}" value="{{ so.product.pk }}"></td>
+                            <td hidden="hidden"><input type="text" name="product[]" class="form-control" readonly value="{{ so.product.pk }}"></td>
+                            <td class="text-center">{{ so.product.product_name }}</td>
                             <td><input type="text" name="uom[]" id="uom" class="form-control" readonly required
                                        value="{{ so.uom }}"></td>
                             <td><input type="number" name="qty[]" id="qty" step="0.01" class="form-control" readonly

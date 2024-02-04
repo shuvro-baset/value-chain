@@ -471,13 +471,6 @@ def productionCostList(request):
     return render(request, 'production_cost_list.html', {'productionCostList': productionCostList})
 
 
-# def othersCostList(request):
-#     context = {}
-#     if not request.user.is_authenticated:
-#         return redirect('valueChainApp:home')
-#     else:
-#         othersCostList = OthersCost.objects.all()
-#     return render(request, 'others_cost_list.html', {'othersCostList': othersCostList})
 
 
 def stockEntryList(request):
@@ -515,7 +508,24 @@ def singleProduct(request, product_id):
 
 def singleProductIssue(request, product_issue_id):
     product_issue = get_object_or_404(ProductIssue, pk=product_issue_id)
-    context = {'product_issue': product_issue}
+    data = {
+        'raw_materials': 0
+    }
+    column_name = []
+    column_value = []
+    raw_materials_value = PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))['total_sum']
+    data['raw_materials'] = float(raw_materials_value)
+    print(raw_materials_value)
+    production_costs = ProductionCost.objects.filter(product_issue_id=product_issue_id)
+    for cost in production_costs:
+        data[cost.cost_type] = float(cost.total)
+
+    for cost_type, total in data.items():
+        column_name.append(cost_type)
+        column_value.append(total)
+
+    print(data, column_name, column_value)
+    context = {'product_issue': product_issue, 'data': data, 'column_name': column_name, 'column_value': column_value}
     return render(request, 'product_issue_details.html', context)
 
 

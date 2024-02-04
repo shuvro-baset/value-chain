@@ -5,12 +5,47 @@
 {% block content %}
 
 
-<div class="container h-100">
-		<h2>Product List</h2>
+<div class="container">
+    <div class="row py-5">
+        <div class="col-md-12">
+            <h2 class="text-center"><b><u>Production Cost List</u></b></h2>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Cost Type</th>
+                    <th scope="col">Creator</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product Issue No</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for pc in productionCostList %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ pc.cost_type }}</td>
+                    <td>{{ pc.creator.first_name }} &nbsp; {{ pc.creator.last_name }}</td>
+                    <td>{{ pc.date }}</td>
+                    <td>{{ pc.product_issue.issue_no }}</td>
+                    <td>{{ pc.product_issue.product.product_name }}</td>
+                    <td>{{ pc.total }}</td>
 
-	{% for product in productIssue %}
-            <li>{{ product.id }} - {{product.product.product_name}}</li>
-	{% endfor %}
+                    <td>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
 
 {% endblock %}
