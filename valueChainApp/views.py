@@ -364,6 +364,7 @@ def createDeliveryChallan(request, sales_order_no):
 
             total_qty = 0
             total = 0
+            insufficient_stock_products = []
 
             products = request.POST.getlist('product[]')
             uoms = request.POST.getlist('uom[]')
@@ -371,8 +372,18 @@ def createDeliveryChallan(request, sales_order_no):
             rates = request.POST.getlist('rate[]')
 
             for product, rate, qty in zip(products, rates, qtys):
+                product = Product.objects.get(pk=product)
                 total_qty = total_qty + float(qty)
                 total = total + (float(rate) * float(qty))
+
+                if product.stock_qty < float(qty):
+                    insufficient_stock_products.append(product.product_name)
+
+            if insufficient_stock_products:
+                messages.error(request,
+                               f'Insufficient stock for products: {", ".join(insufficient_stock_products)}')
+                return render(request, 'create_delivery_challan.html',
+                              {'sales_order_products': sales_order_products})
 
             delivery_challan = DeliveryChallan.objects.create(
                 delivery_challan_no=delivery_challan_no,
@@ -392,8 +403,6 @@ def createDeliveryChallan(request, sales_order_no):
                     qty=qty,
                     rate=rate,
                 )
-
-            # ToDo: udpate status update stock..........
 
             return redirect('valueChainApp:delivery-challan-list')
     return render(request, 'create_delivery_challan.html', {'sales_order_products': sales_order_products})
