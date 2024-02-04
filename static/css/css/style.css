@@ -58,3 +58,7 @@ table#product-table th {
     width: 150px; /* Example width for each column */
 }
 
+.row-bg{
+    background-color: #6fda44!important;
+    color: #2b8aab;
+}

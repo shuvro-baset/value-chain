@@ -1,25 +1,37 @@
 {% extends 'main.html' %}
 
 {% load static %}
-
+{% load humanize %}
 {% block content %}
 
-<h1>Product-wise Gain and Loss Report</h1>
-<table border="1">
-    <tr>
-        <th>Product Name</th>
-        <th>COGS</th>
-        <th>Revenue</th>
-        <th>Gross Profit</th>
-    </tr>
-    {% for report in product_reports %}
-    <tr>
-        <td>{{ report.product.product_name }}</td>
-        <td>{{ report.cogs }}</td>
-        <td>{{ report.revenue }}</td>
-        <td>{{ report.gross_profit }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="container">
+    <div class="row my-5">
+        <div class="col-md-12">
+            <h1>Product-wise Gain and Loss Report</h1>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <tr class="table-success">
+                    <th>Product Name</th>
+                    <th style="text-align: end">COGS(Total Cost)</th>
+                    <th style="text-align: end">Revenue(Total Sales)</th>
+                    <th style="text-align: end">Gross Profit</th>
+                </tr>
+                {% for report in product_reports %}
+                <tr>
+                    <td>{{ report.product.product_name }}</td>
+                    <td style="text-align: end">{{ report.cogs|intcomma }}</td>
+                    <td style="text-align: end">{{ report.revenue|intcomma }}</td>
+                    <td style="text-align: end">{{ report.gross_profit|intcomma }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

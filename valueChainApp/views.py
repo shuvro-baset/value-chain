@@ -71,7 +71,6 @@ def createRawMaterial(request):
     products = Product.objects.filter(is_finished_good=False)
     product_issues = ProductIssue.objects.exclude(status='COMPLETE')
 
-
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
     else:
@@ -516,8 +515,7 @@ def product_wise_report(request):
     product_reports = []
 
     for product in finished_products:
-        # Calculate COGS for the product
-        cogs = ProductIssue.objects.filter(product=product, status='COMPLETE').aggregate(
+        cogs = ProductIssue.objects.filter(product=product).aggregate(
             total_production_cost=Sum('production_cost')
         )['total_production_cost'] or 0.0
 
@@ -527,8 +525,6 @@ def product_wise_report(request):
         ).aggregate(total_sales=Sum(F('deliverychallanproduct__qty') * F('deliverychallanproduct__rate')))[
                       'total_sales'] or 0.0
 
-        print("revenue: ", product.product_name, revenue)
-        # Calculate Gross Profit for the product
         gross_profit = float(revenue) - float(cogs)
 
         product_report = {

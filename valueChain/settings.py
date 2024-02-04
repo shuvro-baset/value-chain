@@ -39,6 +39,7 @@ MODE = env.str('MODE', default='production')
 
 INSTALLED_APPS = [
     'grappelli',
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'valueChain.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -89,7 +89,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -108,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -141,6 +139,5 @@ elif MODE == 'production':  # below 3 line would be not use
     MEDIA_ROOT = '/home/' + env.str('USERNAME') + '/public_html/media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 GRAPPELLI_ADMIN_TITLE = 'Value Chain'
