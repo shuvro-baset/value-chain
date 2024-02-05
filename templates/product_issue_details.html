@@ -6,14 +6,53 @@
 
 
 <div class="container">
-    <div class="row py-5">
+    <div class="row my-5">
         <div class="col-md-12">
-            <h2 class="text-center"><b><u>{{ product_issue.issue_no }}</u></b></h2>
+            <h2 class="text-center"><b><u>Product Issue No: {{ product_issue.issue_no }}</u></b></h2>
+
+        </div>
+    </div>
+    <div class="row py-5">
+        <div class="col-md-6">
+            <br>
+            <p><b>Issued Product Name:</b> {{ product_issue.product.product_name }} </p>
+            <p><b>Created By:</b> {{ product_issue.creator.first_name }} </p>
+            <p><b>Date:</b> {{ product_issue.date }} </p>
+            <p><b>Description:</b> {{ product_issue.description }} </p>
+            <p><b>Issued Quantity:</b> {{ product_issue.total_qty }} </p>
+            <p><b>Total Production cost:</b> {{ product_issue.production_cost }} </p>
+        </div>
+        <div class="col-md-6">
+            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
         </div>
     </div>
 
 
 </div>
 
+<script>
+    const xValues = [{% for item in column_name %}"{{ item }}",{% endfor %}];
+    const yValues = [{% for item in column_value %}"{{ item }}",{% endfor %}];
+    const barColors = ["red", "green","blue","orange","brown"];
 
+    new Chart("myChart", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+              display: true,
+              text: "Products Value Chain"
+            }
+        }
+    });
+
+
+</script>
 {% endblock %}

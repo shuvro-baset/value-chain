@@ -60,7 +60,8 @@ def createProductIssue(request):
                 total_qty=total_qty,
                 product=product,
                 issue_no=issue_no,
-                creator=request.user
+                creator=request.user,
+                status='OPEN'
             )
             messages.info(request, 'Product Issue Succesfully Created.....')
             return redirect("valueChainApp:product-issue-list")
@@ -93,7 +94,8 @@ def createRawMaterial(request):
                 creator=request.user,
                 description=request.POST.get('description'),
                 raw_materials_no=raw_materials_no,
-                product_issue=product_issue_ins
+                product_issue=product_issue_ins,
+                status='OPEN'
             )
 
             # Create RawMaterialsProduct instances for each row
@@ -149,7 +151,8 @@ def createPurchaseOrder(request, raw_materials_no):
                 raw_materials=raw_materials_ins,
                 product_issue=product_issue_ins,
                 total_qty=total_qty,
-                total=total
+                total=total,
+                status='OPEN'
             )
 
             # Create RawMaterialsProduct instances for each row
@@ -327,7 +330,8 @@ def createSalesOrder(request):
                 sales_order_no=sales_order_no,
                 description=request.POST.get('description'),
                 total_qty=total_qty,
-                total=total
+                total=total,
+                status='OPEN'
             )
 
             for product, uom, qty, rate in zip(products, uoms, qtys, rates):
@@ -453,15 +457,6 @@ def purchaseReceiptList(request):
     return render(request, 'purchase_receipt_list.html', {'purchaseReceiptList': purchaseReceiptList})
 
 
-# def costTypeList(request):
-#     context = {}
-#     if not request.user.is_authenticated:
-#         return redirect('valueChainApp:home')
-#     else:
-#         costTypeList = CostType.objects.all()
-#     return render(request, 'cost_type_list.html', {'costTypeList': costTypeList})
-
-
 def productionCostList(request):
     context = {}
     if not request.user.is_authenticated:
@@ -469,8 +464,6 @@ def productionCostList(request):
     else:
         productionCostList = ProductionCost.objects.all()
     return render(request, 'production_cost_list.html', {'productionCostList': productionCostList})
-
-
 
 
 def stockEntryList(request):
@@ -513,10 +506,10 @@ def singleProductIssue(request, product_issue_id):
     }
     column_name = []
     column_value = []
-    raw_materials_value = PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))['total_sum'] or 0
-    print("=======", raw_materials_value)
+    raw_materials_value = \
+    PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))[
+        'total_sum'] or 0
     data['raw_materials'] = float(raw_materials_value)
-    print(raw_materials_value)
     production_costs = ProductionCost.objects.filter(product_issue_id=product_issue_id)
     for cost in production_costs:
         data[cost.cost_type] = float(cost.total)
@@ -525,7 +518,6 @@ def singleProductIssue(request, product_issue_id):
         column_name.append(cost_type)
         column_value.append(total)
 
-    print(data, column_name, column_value)
     context = {'product_issue': product_issue, 'data': data, 'column_name': column_name, 'column_value': column_value}
     return render(request, 'product_issue_details.html', context)
 
