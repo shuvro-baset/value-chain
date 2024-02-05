@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row py-5">
         <div class="col-md-12">
-            <h2 class="text-center"><b><u>Product Issue List</u></b></h2>
+            <h2 class="text-center"><b><u>Raw Material List</u></b></h2>
         </div>
     </div>
     <div class="row py-3">
@@ -37,7 +37,10 @@
                     <td>{{ rawMat.product_issue.issue_no }}</td>
                     <td>{{ rawMat.status }}</td>
                     <td>
-<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-issue-details' rawMat.id %}">Details</a></button>-->
+<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-order' rawMat.id %}">Details</a></button>-->
+                    {% if rawMat.status == 'OPEN'%}
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-order' rawMat.id %}">Purchase Order</a></button>
+                    {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

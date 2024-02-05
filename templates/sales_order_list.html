@@ -39,6 +39,9 @@
                     <td>{{ so.total }}</td>
                     <td>{{ so.status }}</td>
                     <td>
+                    {% if so.status == 'OPEN' %}
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-delivery-challan' so.id %}">Delivery Challan</a></button>
+                    {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

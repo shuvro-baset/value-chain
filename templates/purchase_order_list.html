@@ -43,7 +43,11 @@
                     <td>{{ po.total }}</td>
                     <td>{{ po.status }}</td>
                     <td>
-                        <!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-issue-details' po.id %}">Details</a></button>-->
+<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-receipt' po.id %}">Details</a></button>-->
+                    {% if po.status == "OPEN"%}
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-receipt' po.id %}">Purchase Receipt</a></button>
+                    {% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}

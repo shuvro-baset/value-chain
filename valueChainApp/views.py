@@ -513,7 +513,8 @@ def singleProductIssue(request, product_issue_id):
     }
     column_name = []
     column_value = []
-    raw_materials_value = PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))['total_sum']
+    raw_materials_value = PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))['total_sum'] or 0
+    print("=======", raw_materials_value)
     data['raw_materials'] = float(raw_materials_value)
     print(raw_materials_value)
     production_costs = ProductionCost.objects.filter(product_issue_id=product_issue_id)

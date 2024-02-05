@@ -42,6 +42,12 @@
                     <td>{{ p_issue.unit_price }}</td>
                     <td>
                         <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-issue-details' p_issue.id %}">Details</a></button>
+                    {% if p_issue.status != 'COMPLETE' %}
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-raw-materials' %}">Add Materials</a></button>
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:add-production-cost' %}">Add Cost</a></button>
+                    {% else %}
+                        <button class="btn btn-outline-success" disabled>{{ p_issue.status }}</button>
+                    {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
