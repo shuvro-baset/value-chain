@@ -36,7 +36,7 @@ class ProductIssue(models.Model):
         if self.status == 'COMPLETE':
             # Calculate unit_price only if status is 'COMPLETE'
             if self.total_qty and self.total_qty > 0 and self.production_cost > 0:
-                self.unit_price = self.production_cost / self.total_qty
+                self.unit_price = float(self.production_cost) / float(self.total_qty)
             else:
                 # Handle division by zero or missing values
                 self.unit_price = 0  # Set to default value
