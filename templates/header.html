@@ -20,7 +20,19 @@
 <!--        </li>-->
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'valueChainApp:create-product'%}">Add Product</a>
+          <a class="nav-link" href="{% url 'valueChainApp:product-list'%}">Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'valueChainApp:product-issue-list'%}">Product Issue</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'valueChainApp:stock-entry-list'%}">Stock Entry</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'valueChainApp:sales-order-list'%}">Sales Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'valueChainApp:gain-and-loss-report'%}">Gain & Loss</a>
         </li>
         {% else %}
         <li class="nav-item">
