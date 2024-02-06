@@ -58,7 +58,38 @@ table#product-table th {
     width: 150px; /* Example width for each column */
 }
 
-.row-bg{
-    background-color: #6fda44!important;
-    color: #2b8aab;
+
+#nav-color {
+    background-color: #6fda44;
+}
+#about{
+    background-color: #fceae8;
+}
+#footer-color{
+    background-color: #6fda44;
+}
+.carousel-inner{
+    height: 500px;
+    object-fit: cover;
+}
+.text-orange{
+    color: #fd7e14;
+}
+.panda-btn-buy-now{
+    background-image: linear-gradient(to bottom, #46f863 0%, #0ce1e9 100%);
+    color: white;
+    border-radius: 8px;
+    border:none;
+}
+#subscribe{
+    background-color: #c5fccc;
+}
+
+.card-img {
+    height: 200px; /* Set your preferred height */
+    object-fit: cover; /* This property ensures the image maintains its aspect ratio */
+}
+.card-text{
+    height: 300px;
+    overflow: hidden;
 }

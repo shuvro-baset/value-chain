@@ -28,5 +28,4 @@ urlpatterns = [
     path("product-issue-details/<int:product_issue_id>", singleProductIssue, name="product-issue-details"),
     path("gain-and-loss-report", product_wise_report, name="gain-and-loss-report"),
 
-
 ]

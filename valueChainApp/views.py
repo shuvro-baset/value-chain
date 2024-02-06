@@ -255,8 +255,7 @@ def createStockEntry(request, product_issue_no):
             total = float(qty) * float(rate)
 
             # Validate if stock entry exceeds product issue quantity
-            remaining_qty = product_issue.total_qty - \
-                            product_issue.stockentry_set.aggregate(total_qty=models.Sum('qty'))['total_qty'] or 0
+            remaining_qty = float(product_issue.total_qty) - float(product_issue.stockentry_set.aggregate(total_qty=models.Sum('qty'))['total_qty'] or 0)
             if float(qty) > remaining_qty:
                 messages.error(request, 'Stock Entry quantity cannot exceed remaining quantity of Product Issue')
                 return render(request, 'create_stock_entry.html', {'product_issue': product_issue})

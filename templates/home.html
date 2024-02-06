@@ -7,21 +7,130 @@
 
 
 
-    <div class="container-fluid">
-        <div class="row banner-div">
-
+<section class="m-5">
+    <h1 class="m-3 p-4 text-center fs-1 fw-bold">Welcome to<br> <span class="text-orange">Value Chain
+          Management</span> <br> for Agricultural Marketing</h1>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static '/images/carousel/image-4.jpg' %}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static '/images/carousel/image-2.jpg' %}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static '/images/carousel/image-3.jpg' %}" class="d-block w-100" alt="...">
+            </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+</section>
 
 
-    <!--Service Section==========-->
-    <div class="container">
-        <div class="row my-5">
-            <h1>Home page </h1>
+<main>
+    <section id="agricultural" class="m-5">
+        <div class="card mb-3" style="max-width: 100%;">
+            <div class="row g-0 ">
+                <div class="col-md-4">
+                    <img src="{% static 'images/bangladesh.jpg' %}" class="img-fluid img-thumbnail" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body mb-0 ">
+                        <h5 class="card-title mb-0 fs-1">
+                            Agricultural Bangladesh
+                        </h5>
+                        <p class="card-text fs-4">
+                            Agriculture in Bangladesh is the backbone of the economy, employing a significant portion of
+                            the
+                            population. With fertile deltaic plains and abundant water resources, the country primarily
+                            focuses on
+                            rice cultivation. Small-scale farming dominates, but challenges such as land fragmentation
+                            and climate
+                            change impact productivity. The government is actively promoting modernization, introducing
+                            technology
+                            and sustainable practices. As Bangladesh strives for food security, the agricultural sector
+                            remains
+                            crucial for economic stability and the livelihoods of its people.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <!---End of Service Section --->
+    </section>
+    <section class="m-5">
+        <div class="card mb-3" style="max-width: 100%;">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body mb-0 flex-grow-1 ms-3">
+                        <h5 class="card-title mb-0 fs-1">Value Chain </h5>
+                        <p class="card-text fs-4">
+                            The value chain is crucial for businesses as it offers a comprehensive framework to
+                            understand and
+                            optimize the processes involved in creating and delivering products or services. By
+                            dissecting
+                            operations into primary and support activities, organizations can identify opportunities for
+                            cost
+                            reduction, efficiency improvement, and differentiation. This systematic approach allows
+                            businesses to
+                            align their activities with customer needs, enhance the overall customer experience, and
+                            ensure
+                            competitive advantage. Effectively managing the value chain supports strategic
+                            decision-making,
+                            innovation, and adaptation to market dynamics, making it an indispensable tool for
+                            sustainable business
+                            success.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/value chain.jpg' %}" class="img-fluid rounded-start" alt="...">
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section class="m-5">
+        <div class="card mb-3" style="max-width: 100%;">
+            <div class="row g-0">
+                <div class="col-md-4 flex-shrink-0">
+                    <img src="{% static 'images/iot.jpg' %}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body mb-0 flex-grow-1 ms-3">
+                        <h5 class="card-title mb-0 fs-1">Digital Technology</h5>
+                        <p class="card-text fs-4">The future of agriculture relies on web applications, integrating AI
+                            and IoT for
+                            precision farming. These applications streamline data-driven decision-making, enabling
+                            farmers to
+                            optimize resources and increase yields. From supply chain management to crop monitoring, web
+                            applications play a pivotal role in fostering sustainability, efficiency, and innovation in
+                            agriculture.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="height: 300px;" class="container d-flex justify-content-center align-items-center rounded-3"
+             id="subscribe">
+        <div>
+            <h1>LET'S STAY IN TOUCH</h1>
+            <p>Get updates on sales, specials and more</p>
+            <input class="form-control" type="text" placeholder="Your Email">
+            <br>
+            <button class="panda-btn-buy-now">Submit</button>
+        </div>
+    </section>
+</main>
 
 
 

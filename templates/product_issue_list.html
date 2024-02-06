@@ -47,6 +47,8 @@
                         <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:add-production-cost' %}">Add Cost</a></button>
                     {% else %}
                         <button class="btn btn-outline-success" disabled>{{ p_issue.status }}</button>
+                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-stock-entry' p_issue.id %}">Stock Entry</a></button>
+
                     {% endif %}
                     </td>
                 </tr>
