@@ -4,8 +4,9 @@
 }
 
 body {
-
     background-color: #EFEFEF;
+    min-height: 100vh;
+    font-family: "Roboto";
 }
 
 form {
@@ -19,6 +20,41 @@ form {
 label {
     display: block;
     margin-bottom: 8px;
+}
+
+h2, h3 {
+    font-family: Arial, sans-serif; /* Specify your preferred font family */
+    font-size: 24px; /* Adjust the font size according to your design */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Set the text color */
+    text-align: center; /* Center-align the text */
+    text-transform: uppercase; /* Convert the text to uppercase */
+    letter-spacing: 2px; /* Adjust the letter spacing for better readability */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+    position: relative; /* Set the position to relative */
+}
+
+h3::after {
+    content: ''; /* Add content for pseudo-element */
+    display: block; /* Make it a block element */
+    width: 50px; /* Set the width of the underline */
+    height: 2px; /* Set the height/thickness of the underline */
+    background-color: #6fda44; /* Set the color of the underline */
+    position: absolute; /* Position relative to the h3 */
+    bottom: -8px; /* Position the underline below the h3 text */
+    left: 50%; /* Center the underline */
+    transform: translateX(-50%); /* Adjust to center the underline */
+}
+h2::after {
+    content: ''; /* Add content for pseudo-element */
+    display: block; /* Make it a block element */
+    width: 50px; /* Set the width of the underline */
+    height: 2px; /* Set the height/thickness of the underline */
+    background-color: #6fda44; /* Set the color of the underline */
+    position: absolute; /* Position relative to the h3 */
+    bottom: -8px; /* Position the underline below the h3 text */
+    left: 50%; /* Center the underline */
+    transform: translateX(-50%); /* Adjust to center the underline */
 }
 
 input {

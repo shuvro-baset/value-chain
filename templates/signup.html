@@ -5,44 +5,42 @@
 {% block content %}
 
 
-<div class="container h-100">
-		<div class="d-flex justify-content-center">
-			<div class="user_card">
-				<div class="d-flex justify-content-center">
+<div class="container vh-100">
+    <div class="d-flex justify-content-center my-5">
+        <div class="user_card">
+            <div class="d-flex justify-content-center">
+                <h3 id="form-title">Registration</h3>
+            </div>
+            <div class="d-flex justify-content-center my-5">
+                <form method="POST" action="{% url 'userApp:signup' %}">
+                    {% csrf_token %}
+                    <label>Email:</label>
+                    <input type="text" name="email" placeholder="Email">
+                    <label>First Name:</label>
+                    <input type="text" name="first_name" placeholder="First Name">
+                    <label>Last Name:</label>
+                    <input type="text" name="last_name" placeholder="Last name">
+                    <label>Password:</label>
+                    <input type="password" name="password" placeholder="Password...">
+                    <label>Phone Number:</label>
+                    <input type="text" name="phone_number" placeholder="Phone Number">
 
+                    <button type="submit">Register</button>
+                </form>
 
-					<h3 id="form-title">Registration</h3>
-				</div>
-				<div class="d-flex justify-content-center form_container">
-					<form method="POST" action="{% url 'userApp:signup' %}">
-                        {% csrf_token %}
-							<label>Email:</label>
-							<input type="text" name="email" placeholder="Email">
-							<label>First Name:</label>
-							<input type="text" name="first_name" placeholder="First Name">
-							<label>Last Name:</label>
-							<input type="text" name="last_name" placeholder="Last name">
-							<label>Password:</label>
-							<input type="password" name="password" placeholder="Password...">
-							<label>Phone Number:</label>
-							<input type="text" name="phone_number" placeholder="Phone Number">
+            </div>
+            {% for message in messages %}
+            <p id="messages"> {{ message }}</p>
+            {% endfor %}
 
-       						<button type="submit">Register</button>
-					</form>
+            <div class="mt-4">
+                <div class="d-flex justify-content-center links">
+                    Don't have an account? <a href="{% url 'userApp:signup' %}" class="ml-2">Sign Up</a>
+                </div>
 
-				</div>
-    {% for message in messages %}
-        <p id="messages"> {{ message }}</p>
-    {% endfor %}
-
-				<div class="mt-4">
-					<div class="d-flex justify-content-center links">
-						Don't have an account? <a href="{% url 'userApp:signup' %}" class="ml-2">Sign Up</a>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
