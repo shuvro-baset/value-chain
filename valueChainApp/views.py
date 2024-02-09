@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 
@@ -255,7 +255,8 @@ def createStockEntry(request, product_issue_no):
             total = float(qty) * float(rate)
 
             # Validate if stock entry exceeds product issue quantity
-            remaining_qty = float(product_issue.total_qty) - float(product_issue.stockentry_set.aggregate(total_qty=models.Sum('qty'))['total_qty'] or 0)
+            remaining_qty = float(product_issue.total_qty) - float(
+                product_issue.stockentry_set.aggregate(total_qty=models.Sum('qty'))['total_qty'] or 0)
             if float(qty) > remaining_qty:
                 messages.error(request, 'Stock Entry quantity cannot exceed remaining quantity of Product Issue')
                 return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
@@ -493,8 +494,32 @@ def deliveryChallanList(request):
 
 
 def singleProduct(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    context = {'product': product}
+    try:
+        product = get_object_or_404(Product, pk=product_id)
+        if product:
+            product_issue_count = ProductIssue.objects.filter(product=product).count()
+            raw_mat_count = RawMaterialsProduct.objects.filter(product=product).count()
+            purchase_orders_count = PurchaseOrderProduct.objects.filter(product=product).count()
+            purchase_receipt_count = PurchaseReceiptProduct.objects.filter(product=product).count()
+            stock_entry_count = StockEntry.objects.filter(product=product).count()
+            sales_order_count = SalesOrderProduct.objects.filter(product=product).count()
+            delivery_challan_count = DeliveryChallanProduct.objects.filter(product=product).count()
+
+    except Http404:
+        return redirect('valueChainApp:product-list')
+
+    context = {
+        'product': product,
+        'product_issue_count': product_issue_count,
+        'raw_mat_count': raw_mat_count,
+        'purchase_orders_count': purchase_orders_count,
+        'purchase_receipt_count': purchase_receipt_count,
+        'stock_entry_count': stock_entry_count,
+        'sales_order_count': sales_order_count,
+        'delivery_challan_count': delivery_challan_count,
+
+    }
+
     return render(request, 'product_details.html', context)
 
 
@@ -506,8 +531,8 @@ def singleProductIssue(request, product_issue_id):
     column_name = []
     column_value = []
     raw_materials_value = \
-    PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))[
-        'total_sum'] or 0
+        PurchaseReceipt.objects.filter(product_issue_id=product_issue_id).aggregate(total_sum=Sum('total'))[
+            'total_sum'] or 0
     data['raw_materials'] = float(raw_materials_value)
     production_costs = ProductionCost.objects.filter(product_issue_id=product_issue_id)
     for cost in production_costs:

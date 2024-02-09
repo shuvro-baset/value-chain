@@ -11,6 +11,61 @@
             <h2 class="text-center"><b>{{ product.product_name }}</b></h2>
         </div>
     </div>
+    <div class="row my-5">
+        <div class="col-md-12">
+            <p><b>Product Name: </b> &nbsp; {{ product.product_name }}</p>
+            <p><b>Product UOM: </b> &nbsp; {{ product.uom }}</p>
+            {% if product.is_finished_good %}
+            <p><b>Stock Qty: </b> &nbsp; {{ product.stock_qty }}</p>
+            <p><b>Product Avg Rate: </b> &nbsp; {{ product.avg_rate }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Product Issue</h6>
+                <p class="value">{{product_issue_count}}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Raw Material</h6>
+                <p class="value">{{raw_mat_count}}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Purchase Order</h6>
+                <p class="value">{{purchase_orders_count}}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Purchase Receipt</h6>
+                <p class="value">{{purchase_receipt_count}}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Stock Entry</h6>
+                <p class="value">{{stock_entry_count}}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Sales Order</h6>
+                <p class="value">{{sales_order_count}}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box1">
+                <h6 class="title">Total No of Delivery Challan</h6>
+                <p class="value">{{delivery_challan_count}}</p>
+            </div>
+        </div>
+    </div>
 
 </div>
 

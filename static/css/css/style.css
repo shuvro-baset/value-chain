@@ -129,3 +129,24 @@ table#product-table th {
     height: 300px;
     overflow: hidden;
 }
+
+.box {
+  display: inline-block;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.box1 {
+  background: linear-gradient(to right, #46f863 0%, #96f683 100%);
+}
+.title {
+  color: #000000;
+  font-weight: bold;
+}
+
+.value {
+  color: #333;
+  font-size: 18px;
+}
