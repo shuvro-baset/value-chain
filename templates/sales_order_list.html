@@ -25,6 +25,7 @@
                     <th scope="col">Total</th>
                     <th scope="col">Status</th>
                     <th scope="col"></th>
+                    <th scope="col">Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,9 +40,16 @@
                     <td>{{ so.total }}</td>
                     <td>{{ so.status }}</td>
                     <td>
-                    {% if so.status == 'OPEN' %}
-                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-delivery-challan' so.id %}">Delivery Challan</a></button>
-                    {% endif %}
+                        {% if so.status == 'OPEN' %}
+                        <button class="btn btn-outline-info"><a
+                                href="{% url 'valueChainApp:create-delivery-challan' so.id %}">Delivery Challan</a>
+                        </button>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark"><a
+                                href="{% url 'valueChainApp:sales-order-details' so.id %}">Details</a></button>
+
                     </td>
                 </tr>
                 {% endfor %}

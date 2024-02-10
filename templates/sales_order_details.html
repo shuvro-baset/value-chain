@@ -8,62 +8,40 @@
 <div class="container vh-100">
     <div class="row my-5">
         <div class="col-md-12">
-            <h2 class="text-center"><b>{{ product.product_name }}</b></h2>
-        </div>
-    </div>
-    <div class="row my-5">
-        <div class="col-md-12">
-            <p><b>Product Name: </b> &nbsp; {{ product.product_name }}</p>
-            <p><b>Product UOM: </b> &nbsp; {{ product.uom }}</p>
-            {% if product.is_finished_good %}
-            <p><b>Stock Qty: </b> &nbsp; {{ product.stock_qty }}</p>
-            <p><b>Product Avg Rate: </b> &nbsp; {{ product.avg_rate }}</p>
-            {% endif %}
+            <p><b>Sales Order No: </b> &nbsp; {{ sales_order.sales_order_no }}</p>
+            <p><b>Creator: </b> &nbsp; {{ sales_order.creator.first_name }}</p>
+            <p><b>Date: </b> &nbsp; {{ sales_order.date }}</p>
+            <p><b>Description: </b> &nbsp; {{ sales_order.description }}</p>
+            <p><b>Status: </b> &nbsp; {{ sales_order.status }}</p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Product Issue</h6>
-                <p class="value">{{product_issue_count}}</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Raw Material</h6>
-                <p class="value">{{raw_mat_count}}</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Purchase Order</h6>
-                <p class="value">{{purchase_orders_count}}</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Purchase Receipt</h6>
-                <p class="value">{{purchase_receipt_count}}</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Stock Entry</h6>
-                <p class="value">{{stock_entry_count}}</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Sales Order</h6>
-                <p class="value">{{sales_order_count}}</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="box box1">
-                <h6 class="title">Total No of Delivery Challan</h6>
-                <p class="value">{{delivery_challan_count}}</p>
-            </div>
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">UOM</th>
+                    <th scope="col">QTY</th>
+                    <th scope="col">Rate</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for so in sales_order_products %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ so.product.product_name }}</td>
+                    <td>{{ so.uom }}</td>
+                    <td>{{ so.qty }}</td>
+                    <td>{{ so.rate }}</td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 

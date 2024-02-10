@@ -577,6 +577,42 @@ def singlePurchaseOrder(request, purchase_order_id):
                   {'purchase_order': purchase_order, 'purchase_order_products': purchase_order_products})
 
 
+def singlePurchaseReceipt(request, purchase_receipt_id):
+    try:
+        purchase_receipt = get_object_or_404(PurchaseReceipt, pk=purchase_receipt_id)
+        if purchase_receipt:
+            purchase_receipt_products = PurchaseReceiptProduct.objects.filter(purchase_receipt=purchase_receipt)
+    except Http404:
+        return redirect('valueChainApp:purchase-receipt-list')
+
+    return render(request, 'purchase_receipt_details.html',
+                  {'purchase_receipt': purchase_receipt, 'purchase_receipt_products': purchase_receipt_products})
+
+
+def singleSalesOrder(request, sales_order_id):
+    try:
+        sales_order = get_object_or_404(SalesOrder, pk=sales_order_id)
+        if sales_order:
+            sales_order_products = SalesOrderProduct.objects.filter(sales_order=sales_order)
+    except Http404:
+        return redirect('valueChainApp:sales-order-list')
+
+    return render(request, 'sales_order_details.html',
+                  {'sales_order': sales_order, 'sales_order_products': sales_order_products})
+
+
+def singleDeliveryChallan(request, delivery_challan_id):
+    try:
+        delivery_challan = get_object_or_404(DeliveryChallan, pk=delivery_challan_id)
+        if delivery_challan:
+            delivery_challan_products = DeliveryChallanProduct.objects.filter(delivery_challan=delivery_challan)
+    except Http404:
+        return redirect('valueChainApp:delivery-challan-list')
+
+    return render(request, 'delivery_challan_details.html',
+                  {'delivery_challan': delivery_challan, 'delivery_challan_products': delivery_challan_products})
+
+
 def product_wise_report(request):
     finished_products = Product.objects.filter(is_finished_good=True)
     product_reports = []

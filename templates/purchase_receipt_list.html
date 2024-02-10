@@ -24,7 +24,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Total Qty</th>
                     <th scope="col">Total</th>
-                    <th scope="col"></th>
+                    <th scope="col">Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,7 @@
 
                     <td>{{ pr.total }}</td>
                     <td>
-<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-issue-details' pr.id %}">Details</a></button>-->
+                        <button class="btn btn-outline-dark"><a href="{% url 'valueChainApp:purchase-receipt-details' pr.id %}">Details</a></button>
                     </td>
                 </tr>
                 {% endfor %}
