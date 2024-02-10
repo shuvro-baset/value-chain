@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="container vh-100">
+    <div class="row my-5">
+        <div class="col-md-12">
+            <p><b>Purchase Order No: </b> &nbsp; {{ purchase_order.purchase_order_no }}</p>
+            <p><b>Creator: </b> &nbsp; {{ purchase_order.creator.first_name }}</p>
+            <p><b>Date: </b> &nbsp; {{ purchase_order.date }}</p>
+            <p><b>Description: </b> &nbsp; {{ purchase_order.description }}</p>
+            <p><b>Product Issue No: </b> &nbsp; {{ purchase_order.product_issue.issue_no }}</p>
+            <p><b>Raw Materials No: </b> &nbsp; {{ purchase_order.raw_materials.raw_materials_no }}</p>
+            <p><b>Status: </b> &nbsp; {{ purchase_order.status }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">UOM</th>
+                    <th scope="col">QTY</th>
+                    <th scope="col">Rate</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for po in purchase_order_products %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ po.product.product_name }}</td>
+                    <td>{{ po.uom }}</td>
+                    <td>{{ po.qty }}</td>
+                    <td>{{ po.rate }}</td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

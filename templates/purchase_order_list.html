@@ -27,6 +27,7 @@
                     <th scope="col">Total</th>
                     <th scope="col">Status</th>
                     <th scope="col"></th>
+                    <th scope="col">Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,6 +48,10 @@
                     {% if po.status == "OPEN"%}
                         <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-receipt' po.id %}">Purchase Receipt</a></button>
                     {% endif %}
+
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark"><a href="{% url 'valueChainApp:purchase-order-details' po.id %}">Details</a></button>
 
                     </td>
                 </tr>

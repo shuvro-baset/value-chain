@@ -26,6 +26,8 @@ urlpatterns = [
     path("delivery-challan-list/", deliveryChallanList, name="delivery-challan-list"),
     path("product-details/<int:product_id>", singleProduct, name="product-details"),
     path("product-issue-details/<int:product_issue_id>", singleProductIssue, name="product-issue-details"),
+    path("raw-materials/<int:raw_materials_id>", singleRawMaterial, name="raw-materials-details"),
+    path("purchase-order/<int:purchase_order_id>", singlePurchaseOrder, name="purchase-order-details"),
     path("gain-and-loss-report", product_wise_report, name="gain-and-loss-report"),
 
 ]

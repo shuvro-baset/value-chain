@@ -24,6 +24,7 @@
                     <th scope="col">Product Issue No</th>
                     <th scope="col">Status</th>
                     <th scope="col"></th>
+                    <th scope="col">Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,10 +38,17 @@
                     <td>{{ rawMat.product_issue.issue_no }}</td>
                     <td>{{ rawMat.status }}</td>
                     <td>
-<!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-order' rawMat.id %}">Details</a></button>-->
-                    {% if rawMat.status == 'OPEN'%}
-                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-order' rawMat.id %}">Purchase Order</a></button>
-                    {% endif %}
+                        <!--                        <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:create-purchase-order' rawMat.id %}">Details</a></button>-->
+                        {% if rawMat.status == 'OPEN'%}
+                        <button class="btn btn-outline-info"><a
+                                href="{% url 'valueChainApp:create-purchase-order' rawMat.id %}">Purchase Order</a>
+                        </button>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark"><a
+                                href="{% url 'valueChainApp:raw-materials-details' rawMat.id %}">Details</a></button>
+
                     </td>
                 </tr>
                 {% endfor %}
@@ -49,7 +57,6 @@
         </div>
     </div>
 </div>
-
 
 
 {% endblock %}

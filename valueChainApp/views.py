@@ -553,6 +553,30 @@ def singleProductIssue(request, product_issue_id):
     return render(request, 'product_issue_details.html', context)
 
 
+def singleRawMaterial(request, raw_materials_id):
+    try:
+        raw_materials = get_object_or_404(RawMaterials, pk=raw_materials_id)
+        if raw_materials:
+            raw_materials_products = RawMaterialsProduct.objects.filter(raw_materials=raw_materials)
+    except Http404:
+        return redirect('valueChainApp:raw-materials-list')
+
+    return render(request, 'raw_materials_details.html',
+                  {'raw_materials': raw_materials, 'raw_materials_products': raw_materials_products})
+
+
+def singlePurchaseOrder(request, purchase_order_id):
+    try:
+        purchase_order = get_object_or_404(PurchaseOrder, pk=purchase_order_id)
+        if purchase_order:
+            purchase_order_products = PurchaseOrderProduct.objects.filter(purchase_order=purchase_order)
+    except Http404:
+        return redirect('valueChainApp:purchase-order-list')
+
+    return render(request, 'purchase_order_details.html',
+                  {'purchase_order': purchase_order, 'purchase_order_products': purchase_order_products})
+
+
 def product_wise_report(request):
     finished_products = Product.objects.filter(is_finished_good=True)
     product_reports = []

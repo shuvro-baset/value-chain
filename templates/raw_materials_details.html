@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="container vh-100">
+    <div class="row my-5">
+        <div class="col-md-12">
+            <p><b>Raw Materials No: </b> &nbsp; {{ raw_materials.raw_materials_no }}</p>
+            <p><b>Creator: </b> &nbsp; {{ raw_materials.creator.first_name }}</p>
+            <p><b>Date: </b> &nbsp; {{ raw_materials.date }}</p>
+            <p><b>Description: </b> &nbsp; {{ raw_materials.description }}</p>
+            <p><b>Product Issue No: </b> &nbsp; {{ raw_materials.product_issue.issue_no }}</p>
+            <p><b>Status: </b> &nbsp; {{ raw_materials.status }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">SL No</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">UOM</th>
+                    <th scope="col">QTY</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for rm in raw_materials_products %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ rm.product.product_name }}</td>
+                    <td>{{ rm.uom }}</td>
+                    <td>{{ rm.qty }}</td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
