@@ -7,7 +7,7 @@ from .models import Product, ProductIssue, RawMaterials, PurchaseOrder, Purchase
     SalesOrderProduct, DeliveryChallanProduct
 from django.contrib import messages
 from django.db.models import Q, Sum, F
-from django.db import models
+from django.db import models, transaction
 
 
 def home(request):
@@ -68,6 +68,7 @@ def createProductIssue(request):
     return render(request, 'create_product_issue.html', {'products': products})
 
 
+@transaction.atomic()
 def createRawMaterial(request):
     products = Product.objects.filter(is_finished_good=False)
     product_issues = ProductIssue.objects.exclude(status='COMPLETE')
@@ -112,6 +113,7 @@ def createRawMaterial(request):
     return render(request, 'create_raw_materials.html', {'products': products, 'product_issues': product_issues})
 
 
+@transaction.atomic()
 def createPurchaseOrder(request, raw_materials_no):
     raw_materials_ins = get_object_or_404(RawMaterials, id=raw_materials_no)
     if raw_materials_ins:
@@ -171,6 +173,7 @@ def createPurchaseOrder(request, raw_materials_no):
     return render(request, 'create_purchase_order.html', {'raw_material_products': raw_material_products})
 
 
+@transaction.atomic()
 def createPurchaseReceipt(request, purchase_order_no):
     purchase_order_ins = get_object_or_404(PurchaseOrder, id=purchase_order_no)
     if purchase_order_ins:
@@ -230,6 +233,7 @@ def createPurchaseReceipt(request, purchase_order_no):
     return render(request, 'create_purchase_receipt.html', {'purchase_order_products': purchase_order_products})
 
 
+@transaction.atomic()
 def createStockEntry(request, product_issue_no):
     product_issue_ins = get_object_or_404(ProductIssue, id=product_issue_no)
     if product_issue_ins:
@@ -277,6 +281,7 @@ def createStockEntry(request, product_issue_no):
     return render(request, 'create_stock_entry.html', {'product_issue': product_issue})
 
 
+@transaction.atomic()
 def createProductionCost(request):
     if not request.user.is_authenticated:
         return redirect('valueChainApp:home')
@@ -300,6 +305,7 @@ def createProductionCost(request):
     return render(request, 'create_production_cost.html', {'product_issues': product_issues})
 
 
+@transaction.atomic()
 def createSalesOrder(request):
     # products = Product.objects.all()
     products = Product.objects.filter(is_finished_good=True)
@@ -349,6 +355,7 @@ def createSalesOrder(request):
     return render(request, 'create_sales_order.html', {'products': products})
 
 
+@transaction.atomic()
 def createDeliveryChallan(request, sales_order_no):
     sales_order_ins = get_object_or_404(SalesOrder, id=sales_order_no)
     if sales_order_ins:
