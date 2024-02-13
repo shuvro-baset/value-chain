@@ -22,8 +22,14 @@
             <p><b>Issued Quantity:</b> {{ product_issue.total_qty }} </p>
             <p><b>Total Production cost:</b> {{ product_issue.production_cost }} </p>
         </div>
+
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="lineChart" style="width:100%;max-width:600px"></canvas>
         </div>
     </div>
 
@@ -49,6 +55,25 @@
             title: {
               display: true,
               text: "Products Value Chain"
+            }
+        }
+    });
+
+    new Chart("lineChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: "Values",
+                borderColor: "blue",
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {display: true},
+            title: {
+              display: true,
+              text: "Products Value Chain (Line)"
             }
         }
     });
