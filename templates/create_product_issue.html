@@ -24,7 +24,9 @@
                     <select id="product_select" name="product" class="form-control">
                         <option disabled>Select Product</option>
                         {% for product in products %}
-                        <option value="{{ product.id }}">{{ product.product_name }}</option>
+                        <option value="{{ product.id }}">{{ product.product_name }} ||
+                            <b>Current Market Price:</b> {{ product.current_market_rate }}
+                        </option>
                         {% endfor %}
                     </select>
                     <br>

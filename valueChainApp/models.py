@@ -14,6 +14,7 @@ class Product(models.Model):
     stock_qty = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     stock_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     avg_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    current_market_rate = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     is_finished_good = models.BooleanField(default=False)
 
 class ProductIssue(models.Model):

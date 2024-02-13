@@ -22,6 +22,7 @@ def createProduct(request):
             product_name = request.POST.get('product_name')
             product_group = request.POST.get('product_group')
             uom = request.POST.get('uom')
+            current_market_rate = request.POST.get('current_market_rate')
             is_finished_good = request.POST.get('is_finished_good') == 'on'
             if is_finished_good is None:
                 is_finished_good = False
@@ -35,6 +36,7 @@ def createProduct(request):
                 product_name=product_name,
                 product_group=product_group,
                 uom=uom,
+                current_market_rate=current_market_rate,
                 is_finished_good=is_finished_good
             )
             messages.info(request, 'Product Succesfully Created.....')

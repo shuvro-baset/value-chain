@@ -23,6 +23,7 @@
                     <th scope="col">Stock Qty</th>
                     <th scope="col">Stock Balance</th>
                     <th scope="col">Average Rate</th>
+                    <th scope="col">Current Market Price</th>
                     <th scope="col">Is Finished Good</th>
                     <th scope="col"></th>
                 </tr>
@@ -37,6 +38,7 @@
                     <td>{{ product.stock_qty }}</td>
                     <td>{{ product.stock_rate }}</td>
                     <td>{{ product.avg_rate }}</td>
+                    <td>{{ product.current_market_rate }}</td>
                     <td>{{ product.is_finished_good }}</td>
                     <td>
                         <button class="btn btn-outline-info"><a href="{% url 'valueChainApp:product-details' product.id %}">Details</a></button>

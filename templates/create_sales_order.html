@@ -38,7 +38,7 @@
                             <td><select name="product[]" id="product" class="form-control">
                                 <option disabled>Select Product</option>
                                 {% for product in products %}
-                                <option value="{{ product.pk }}">{{ product.product_name }}</option>
+                                <option value="{{ product.pk }}">{{ product.product_name }} || Unit Price: {{ product.avg_rate }} </option>
                                 {% endfor %}
                             </select></td>
                             <td><input type="text" name="uom[]" id="uom" class="form-control" required></td>
