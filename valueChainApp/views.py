@@ -323,6 +323,7 @@ def createSalesOrder(request):
                               {'products': products})
             total_qty = 0
             total = 0
+            insufficient_stock_products = []
 
             products = request.POST.getlist('product[]')
             uoms = request.POST.getlist('uom[]')
@@ -330,8 +331,18 @@ def createSalesOrder(request):
             rates = request.POST.getlist('rate[]')
 
             for product, rate, qty in zip(products, rates, qtys):
+                product = Product.objects.get(pk=product)
                 total_qty = total_qty + float(qty)
                 total = total + (float(rate) * float(qty))
+
+                if product.stock_qty < float(qty):
+                    insufficient_stock_products.append(product.product_name)
+
+            if insufficient_stock_products:
+                messages.error(request,
+                               f'Insufficient stock for products: {", ".join(insufficient_stock_products)}')
+                return render(request, 'create_delivery_challan.html',
+                              {'products': products})
 
             sales_order = SalesOrder.objects.create(
                 creator=request.user,

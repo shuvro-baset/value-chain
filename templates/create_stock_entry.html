@@ -35,7 +35,7 @@
                             <td>{{ product_issue.product.uom }}</td>
                             <td><input type="number" name="qty" id="qty" step="0.01" class="form-control"
                                        value="{{ product_issue.total_qty }}" required>
-                            <td><input type="number" name="rate" id="rate" step="0.01" class="form-control"
+                            <td><input type="number" name="rate" id="rate" step="0.01" class="form-control" readonly
                                        value="{{ product_issue.unit_price }}" required>
                             </td>
                         </tr>
