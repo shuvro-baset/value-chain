@@ -341,8 +341,7 @@ def createSalesOrder(request):
             if insufficient_stock_products:
                 messages.error(request,
                                f'Insufficient stock for products: {", ".join(insufficient_stock_products)}')
-                return render(request, 'create_delivery_challan.html',
-                              {'products': products})
+                return redirect('valueChainApp:create-sales-order')
 
             sales_order = SalesOrder.objects.create(
                 creator=request.user,
